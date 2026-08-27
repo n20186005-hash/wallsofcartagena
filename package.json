@@ -1,0 +1,30 @@
+{
+  "name": "murallas-de-cartagena-guia",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Guía independiente y sin ánimo de lucro sobre las Murallas de Cartagena.",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": "22.13.0",
+    "pnpm": "11.20.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "pnpm build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.3",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.2.8",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "5.9.3",
+    "wrangler": "4.127.0"
+  }
+}
