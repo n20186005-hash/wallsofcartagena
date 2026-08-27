@@ -1,0 +1,76 @@
+---
+import type { Locale } from '../data/site-data';
+
+interface Props {
+  lang: Locale;
+  kind: 'privacy' | 'terms' | 'cookies';
+  title: string;
+  lead: string;
+  sections: { title: string; paragraphs: string[] }[];
+}
+
+const { lang, kind, title, lead, sections } = Astro.props;
+const homeHref = lang === 'es' ? '/' : '/en/';
+const cookieCopy = lang === 'es'
+  ? { essential: 'Necesarias', analytics: 'Medición anónima', description: 'La medición solo se carga cuando eliges esta opción.', save: 'Guardar preferencias', saved: 'Preferencias guardadas.' }
+  : { essential: 'Necessary', analytics: 'Anonymous measurement', description: 'Measurement loads only when you choose this option.', save: 'Save preferences', saved: 'Preferences saved.' };
+---
+
+<main class="legal-page" id="contenido">
+  <header class="legal-header shell">
+    <a class="brand legal-brand" href={homeHref} aria-label={lang === 'es' ? 'Inicio de la Guía de las Murallas de Cartagena' : 'Cartagena Walls Guide home'}>
+      <img src="/mark.svg" width="42" height="42" alt="" />
+      <span><strong>{lang === 'es' ? 'Murallas' : 'Cartagena'}</strong><small>{lang === 'es' ? 'Cartagena de Indias' : 'Walls guide'}</small></span>
+    </a>
+    <a class="back-link" href={homeHref}>← {lang === 'es' ? 'Volver a la guía' : 'Back to the guide'}</a>
+  </header>
+  <section class="legal-hero">
+    <div class="shell">
+      <p class="eyebrow">{lang === 'es' ? 'Información del sitio' : 'Website information'}</p>
+      <h1>{title}</h1>
+      <p>{lead}</p>
+      <p class="last-updated">{lang === 'es' ? 'Última actualización: agosto de 2026' : 'Last updated: August 2026'}</p>
+    </div>
+  </section>
+  <article class="legal-content shell">
+    {sections.map((section) => (
+      <section>
+        <h2>{section.title}</h2>
+        {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+    ))}
+    {kind === 'cookies' && (
+      <section class="preference-panel" aria-labelledby="preference-title">
+        <h2 id="preference-title">{lang === 'es' ? 'Tus preferencias' : 'Your preferences'}</h2>
+        <form data-preference-form>
+          <label class="preference-option">
+            <span><strong>{cookieCopy.essential}</strong><small>{lang === 'es' ? 'Siempre activas para recordar tu decisión.' : 'Always active to remember your choice.'}</small></span>
+            <input type="checkbox" checked disabled aria-label={cookieCopy.essential} />
+          </label>
+          <label class="preference-option">
+            <span><strong>{cookieCopy.analytics}</strong><small>{cookieCopy.description}</small></span>
+            <input type="checkbox" data-analytics-toggle aria-label={cookieCopy.analytics} />
+          </label>
+          <button class="button" type="submit">{cookieCopy.save}</button>
+          <p class="preference-status" data-preference-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    )}
+  </article>
+</main>
+
+{kind === 'cookies' && <script is:inline define:vars={{ saved: cookieCopy.saved }}>
+  const key = 'murallas-cookie-consent';
+  const toggle = document.querySelector('[data-analytics-toggle]');
+  const form = document.querySelector('[data-preference-form]');
+  const status = document.querySelector('[data-preference-status]');
+  if (toggle) toggle.checked = localStorage.getItem(key) === 'analytics';
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const value = toggle?.checked ? 'analytics' : 'necessary';
+    localStorage.setItem(key, value);
+    if (status) status.textContent = saved;
+    window.dispatchEvent(new CustomEvent('murallas-consent-change', { detail: value }));
+    if (value === 'analytics') window.location.reload();
+  });
+</script>}

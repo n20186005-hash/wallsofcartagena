@@ -1,0 +1,185 @@
+Walls of Cartagena
+Murallas de Cartagena
+4.8
+(34,188)
+古迹地标
+
+Cl. de la Serrezuela, San Diego, Cartagena de Indias, Bolívar, 哥伦比亚
+
+https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6
+
+
+
+谷歌地图嵌入用：<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.898738713571!2d-75.54743992302028!3d10.429609789698866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f9f3fb420c7%3A0x2553d110a2ea22e0!2sWalls%20of%20Cartagena!5e0!3m2!1szh-CN!2s!4v1787818377875!5m2!1szh-CN!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
+
+不用使用通用模板，要根据景点的特点设计风格，使用真实照片。
+
+请根据下面这个 Google 地图地址，收集该景点的信息，并为它做一个景点网站。
+
+地图地址：https://www.google.com/maps/search/?api=1&query=Cl.%20de%20la%20Serrezuela%2C%20San%20Diego%2C%20Cartagena%20de%20Indias%2C%20Bol%C3%ADvar%2C%20%E5%93%A5%E4%BC%A6%E6%AF%94%E4%BA%9A
+
+技术要求（必须严格遵守，不得替换）：
+- Astro + Tailwind CSS + TypeScript；包管理用 pnpm；Cloudflare Worker 部署；无数据库、无登录、无 CMS。
+- 版本锁定：开发时选择彼此兼容的最新稳定版，package.json 写入解析后的精确版本，禁止使用 "latest"、"*" 或浮动范围，并提交与之同步的 pnpm-lock.yaml。
+- TypeScript 版本必须落在 @astrojs/check 官方支持范围内，保证 astro check 可正常运行。
+- 用 packageManager 字段固定完整 pnpm 版本（如 "pnpm@10.11.1"），确保 Cloudflare 使用项目指定版本，而非构建环境自带的默认版本。
+- 选择 Astro 支持的当前 Node.js LTS，并用 engines 与 .node-version 固定版本。
+- 单包项目默认不要创建 pnpm-workspace.yaml；若因 approve-builds 等原因必须创建，packages 字段必须非空并包含 packages: ['.']，禁止生成 packages 缺失或为空的 workspace 配置。
+- GA4：G-HXM22WWPKP
+
+其他要求（细节可自行发挥）：
+- 语言用该景点所在地区的语言，不做多语言
+- 设计风格：贴合该景点气质
+- 站点形态：单页
+- footer 放一句非官方声明
+- 提供 logo 与 favicon，且两者视觉保持一致（同一图形符号 / 配色 / 风格，favicon 由 logo 简化而来）；logo 贴合景点气质，favicon 覆盖常用尺寸（如 16/32/180 与 SVG），尽量本地内联、不外链。
+- 图片用真实照片，尽量不出现外链
+- 内嵌 JSON-LD 结构化数据（TouristAttraction / LocalBusiness：名称、地址、坐标、营业时间、评分）
+- 包含「FAQ 常见问答」板块，并配 FAQPage 结构化数据
+- 站点域名/URL 只在一处配置（Astro 的 site 字段），全站 canonical、Open Graph、JSON-LD、sitemap 中的 URL 一律从该配置派生；禁止硬编码 https://example.com、localhost 等占位域名。
+- 域名可后配、缺失不阻断构建：site 允许为空，此时项目必须仍能正常构建——canonical / Open Graph 等绝对 URL 标签优雅降级（改用相对路径或省略），sitemap 集成仅在 site 有值时启用，绝不因缺少域名而报错或退回写入占位域名；域名确定后只需在同一处填入并重新构建。
+- sitemap 用 @astrojs/sitemap 自动生成，不手写 <url> 列表，也不写编造的 lastmod；禁止编造任何精确日期（lastmod、"最后核对时间"等）或容易过期的精确值。
+- 禁止出现 chrome-extension://、来源不明的第三方 <script>，或参考素材夹带的外链脚本；若素材来自浏览器复制的 HTML，只提取正文并剔除注入的 script 与 link。
+- 包含「周边美食」板块
+- 包含「详细交通」板块
+- 包含「周边景点」板块
+- 包含「门票 / 费用」板块
+- 包含「停车信息」板块
+- 包含「最佳游览时段 / 建议停留时长」板块
+
+在合适位置嵌入下面的 Google 地图，并把 iframe 中的语言/地区参数（如末尾的 `!1szh-CN!2stw` 或 `hl=` 参数）改成该景点所在地区的本地语言：
+
+https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6
+
+交付前自检（干净环境执行，任一步失败必须继续修复，不得把带错误的项目当作完成）：
+1. 删除 node_modules → CI=1 corepack pnpm install --frozen-lockfile → pnpm check → pnpm build，全部通过。
+2. 若存在 pnpm-workspace.yaml，确认 packages 字段非空。
+3. grep 构建产物，确认不存在 example.com、localhost、chrome-extension:// 等占位或非法内容。
+4. 检查 sitemap，确认所有 URL 均为真实域名且无编造的 lastmod。
+
+完成后，再给出几个尚未注册的域名建议（符合该景点所在地区的命名习惯）。
+
+
+
+
+「详细交通」板块要包含机场、公交、出租车等到景点
+
+完善补全类似WC、停车、餐饮、住宿、商超、加油充电等用户关心信息，我们是非盈利科普网站不要推荐具体商户名称只推荐类型保持中立客观
+
+我们是一个专业的非盈利景点科普网站 为了丰富内容和介绍景点的历史背景故事传说等请检查一遍网站给出建议让网站更像一个专业的景点落地页 
+你看下网站给出优化建议 作为专业的科普网站内容不能太简单了 
+
+
+最后检查一遍不要出现语言混淆
+
+隐私政策
+
+最后更新时间：2026年8月
+
+我们收集的信息
+我们仅收集提供服务所必需的最低限度数据。这些数据可能包括：
+
+浏览数据（IP 地址、浏览器类型、访问页面）
+Cookie 和类似技术
+您通过联系表格或电子邮件自愿提供的任何信息
+
+我们如何使用您的信息
+
+我们使用收集到的信息用于：
+
+改善网站内容和用户体验
+分析流量和使用模式
+回应请求
+遵守我们的法律义务
+
+第三方服务
+
+我们的网站可能会使用第三方服务，例如谷歌地图（用于嵌入式地图和位置数据）、谷歌分析（用于流量分析）和 Unsplash（用于图片）。这些服务均有各自的隐私政策。
+
+您的权利
+
+根据《通用数据保护条例》(GDPR)及相关法规，您享有以下权利：
+
+访问您的个人数据
+要求更正或删除
+反对治疗
+向监管机构提出投诉
+
+
+
+
+服务条款
+最后更新时间：2026年8月
+
+访问和使用 ，即表示您同意受这些服务条款的约束。
+
+内容使用
+本网站所有内容仅供参考。我们是一家独立的第三方旅游信息网站，与任何旅游景点、政府机构或商业运营商均无关联。
+
+信息的准确性
+我们力求提供准确及时的信息，但无法保证信息的完整性或准确性。行程安排、条件和服务如有变更，恕不另行通知。请务必在出行前通过官方渠道核实重要信息。
+
+知识产权
+本网站设计和原创内容受版权保护。图片来自 Unsplash，并已获得其许可。Google 地图数据的使用符合 Google 的服务条款。
+
+责任限制
+本网站按“现状”提供，不作任何担保。对于因使用本网站信息而造成的任何损失，包括但不限于基于本网站内容做出的旅行决定，我们概不负责。
+
+
+
+
+Cookie 设置
+最后更新时间：2026年8月
+
+我们使用 Cookie 来改善您的浏览体验。您可以在下方管理您的偏好设置。
+
+必要 Cookie
+这些 Cookie 对于网站正常运行至关重要，无法禁用。
+
+必要 Cookie
+始终保持活跃
+分析型 Cookie
+它们通过收集匿名使用数据，帮助我们了解访客如何与我们的网站互动。
+
+Google Analytics
+激活
+它会收集访客如何使用我们网站的匿名信息。
+
+偏好 Cookie
+它们会记住您的设置，例如语言和主题偏好。
+
+用户偏好
+激活
+保存您的语言偏好和网站设置。
+
+营销 Cookie
+它们用于展示相关广告并衡量广告活动的有效性。
+
+个性化广告
+停用
+它可以根据你的兴趣为你展示相关的广告。
+
+同意管理
+您可以随时更改您的 Cookie 设置。请注意，禁用某些 Cookie 可能会影响网站的功能。
+
+保存偏好设置
+拒绝一切
+
+以上内容完善
+隐私政策
+服务条款
+Cookie 设置
+
+这三个板块不要做成弹窗 点击要直接跳转对应内容的独立二级页面
+
+页脚新增
+本网站为一个独立的非营利游客信息指南项目，与任何政府机构或官方组织均无隶属关系。
+
+本站景点信息均参考并对照考证自XX市政厅、XX旅游局与XX国家旅游局公开资料，不包含任何商业性推荐。
+
+图片产权：本网站所展示的所有图片产权及版权均归原摄影者所有。
+
+© 2026 XXX旅游指南。保留所有权利。
+xxx换成当前景点和景点所在辖区信息
+按要求落地，xx 已替换为当前景点 Baguio 辖区实际名称（市政厅/旅游局/国家旅游局），并将 2026 版权署名改为项目名，Footer 构建通过。

@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegalPage from '../../components/LegalPage.astro';
+import { content, legalContent } from '../../data/site-data';
+
+const page = content.es;
+const legal = legalContent.es.cookies;
+---
+
+<BaseLayout lang="es" htmlLang="es-CO" title={`${legal.title} | ${page.siteName}`} description={legal.lead} alternateHref="/en/cookies/" alternateLang="en">
+  <LegalPage lang="es" kind="cookies" {...legal} />
+</BaseLayout>

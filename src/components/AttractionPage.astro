@@ -1,0 +1,283 @@
+---
+import type { Content } from '../data/site-data';
+
+interface Props {
+  content: Content;
+}
+
+const { content } = Astro.props;
+const homeHref = content.locale === 'es' ? '/' : '/en/';
+const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.898738713571!2d-75.54743992302028!3d10.429609789698866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f9f3fb420c7%3A0x2553d110a2ea22e0!2sWalls%20of%20Cartagena!5e0!3m2!1ses-419!2sCO!4v1787818377875!5m2!1ses-419!2sCO';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: content.locale === 'es' ? 'Murallas de Cartagena' : 'Walls of Cartagena',
+  description: content.description,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Cl. de la Serrezuela, San Diego',
+    addressLocality: 'Cartagena de Indias',
+    addressRegion: 'Bolívar',
+    addressCountry: 'CO',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 10.429609789698866,
+    longitude: -75.54743992302028,
+  },
+  openingHours: content.locale === 'es'
+    ? 'Los horarios y condiciones de acceso varían por tramo; verifique antes de la visita.'
+    : 'Opening times and access conditions vary by section; verify before visiting.',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    reviewCount: '34188',
+    bestRating: '5',
+  },
+  image: Astro.site ? new URL('/photos/murallas-torre.jpg', Astro.site).href : '/photos/murallas-torre.jpg',
+  url: Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined,
+  sameAs: 'https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6',
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: content.faq.items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<header class="site-header" data-site-header>
+  <div class="shell header-inner">
+    <a class="brand" href={homeHref} aria-label={content.locale === 'es' ? 'Inicio de la Guía de las Murallas de Cartagena' : 'Cartagena Walls Guide home'}>
+      <img src="/mark.svg" width="46" height="46" alt="" />
+      <span><strong>{content.locale === 'es' ? 'Murallas' : 'Cartagena'}</strong><small>{content.locale === 'es' ? 'Cartagena de Indias' : 'Walls guide'}</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label={content.locale === 'es' ? 'Navegación principal' : 'Main navigation'}>
+      {content.navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <a class="language-link" href={content.language.href} lang={content.locale === 'es' ? 'en' : 'es'}>
+      <span aria-hidden="true">◎</span> {content.language.short}
+    </a>
+    <details class="mobile-menu">
+      <summary aria-label={content.locale === 'es' ? 'Abrir menú' : 'Open menu'}><span></span><span></span><span></span></summary>
+      <nav aria-label={content.locale === 'es' ? 'Navegación móvil' : 'Mobile navigation'}>
+        {content.navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={content.language.href} lang={content.locale === 'es' ? 'en' : 'es'}>{content.language.label}</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-media" role="img" aria-label={content.hero.imageAlt}></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-gridline"></div>
+    <div class="shell hero-content">
+      <p class="eyebrow hero-eyebrow"><span></span>{content.hero.eyebrow}</p>
+      <h1 id="hero-title">{content.hero.title}</h1>
+      <p class="hero-lead">{content.hero.lead}</p>
+      <div class="hero-actions">
+        <a class="button" href="#planifica">{content.hero.primary}<span aria-hidden="true">↓</span></a>
+        <a class="button button-ghost" href="#historia">{content.hero.secondary}<span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span></span>{content.locale === 'es' ? 'Descubre' : 'Discover'}</div>
+  </section>
+
+  <section class="facts-band" aria-label={content.locale === 'es' ? 'Datos principales' : 'Key facts'}>
+    <div class="shell facts-grid">
+      {content.facts.map((fact) => (
+        <div class="fact"><span>{fact.label}</span><strong>{fact.value}</strong></div>
+      ))}
+    </div>
+  </section>
+
+  <section class="intro-section section" id="muralla">
+    <div class="shell intro-layout">
+      <div class="section-heading">
+        <p class="eyebrow">{content.overview.kicker}</p>
+        <h2>{content.overview.title}</h2>
+      </div>
+      <div class="intro-copy">
+        {content.overview.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        <figure class="pull-quote">
+          <blockquote>“{content.overview.quote}”</blockquote>
+          <figcaption>{content.overview.attribution}</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="history-section section" id="historia" aria-labelledby="history-title">
+    <div class="texture-mark" aria-hidden="true">C</div>
+    <div class="shell">
+      <div class="history-heading">
+        <p class="eyebrow">{content.history.kicker}</p>
+        <h2 id="history-title">{content.history.title}</h2>
+        <p>{content.history.intro}</p>
+      </div>
+      <ol class="timeline">
+        {content.history.milestones.map((item, index) => (
+          <li class={`timeline-item ${index % 2 ? 'timeline-right' : ''}`}>
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <span class="timeline-year">{item.year}</span>
+            <article>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="visit-section section" aria-labelledby="visit-title">
+    <div class="shell">
+      <div class="center-heading">
+        <p class="eyebrow">{content.visit.kicker}</p>
+        <h2 id="visit-title">{content.visit.title}</h2>
+        <p>{content.visit.intro}</p>
+      </div>
+      <div class="visit-cards">
+        {content.visit.items.map((item) => (
+          <article class="visit-card">
+            <span class="visit-icon" aria-hidden="true">{item.icon}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="experience-section">
+    <div class="experience-photo" role="img" aria-label={content.experience.imageAlt}></div>
+    <div class="experience-copy">
+      <div>
+        <p class="eyebrow">{content.locale === 'es' ? 'El paseo' : 'The walk'}</p>
+        <h2>{content.experience.title}</h2>
+        <p>{content.experience.text}</p>
+      </div>
+      <div class="photo-caption">
+        {content.experience.captions.map((caption) => <span>{caption}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="practical-section section" id="planifica" aria-labelledby="practical-title">
+    <div class="shell">
+      <div class="practical-header">
+        <div>
+          <p class="eyebrow">{content.practical.kicker}</p>
+          <h2 id="practical-title">{content.practical.title}</h2>
+        </div>
+        <p class="note"><span aria-hidden="true">i</span>{content.practical.note}</p>
+      </div>
+      <div class="practical-grid">
+        {content.practical.groups.map((group) => (
+          <article class="practical-card">
+            <div class="card-title"><span aria-hidden="true">{group.icon}</span><h3>{group.title}</h3></div>
+            <p>{group.text}</p>
+            <ul>{group.list.map((item) => <li>{item}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="food-section section" aria-labelledby="food-title">
+    <div class="shell split-section">
+      <div class="section-heading">
+        <p class="eyebrow">{content.food.kicker}</p>
+        <h2 id="food-title">{content.food.title}</h2>
+        <p>{content.food.text}</p>
+      </div>
+      <div class="food-cards">
+        {content.food.cards.map((card, index) => (
+          <article class="food-card">
+            <span>0{index + 1}</span>
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="nearby-section section" id="cerca" aria-labelledby="nearby-title">
+    <div class="shell">
+      <div class="center-heading light-heading">
+        <p class="eyebrow">{content.nearby.kicker}</p>
+        <h2 id="nearby-title">{content.nearby.title}</h2>
+        <p>{content.nearby.text}</p>
+      </div>
+      <div class="nearby-grid">
+        {content.nearby.cards.map((card, index) => (
+          <article class="nearby-card">
+            <span class="nearby-number">0{index + 1}</span>
+            <div><h3>{card.title}</h3><p>{card.text}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="map-section section" aria-labelledby="map-title">
+    <div class="shell map-layout">
+      <div class="map-intro">
+        <p class="eyebrow">{content.map.kicker}</p>
+        <h2 id="map-title">{content.map.title}</h2>
+        <p>{content.map.text}</p>
+        <a class="map-link" href="https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6" target="_blank" rel="noreferrer">{content.locale === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'} <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="map-frame">
+        <iframe src={mapSrc} title={content.map.label} width="600" height="450" style="border:0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section section" id="preguntas" aria-labelledby="faq-title">
+    <div class="shell faq-layout">
+      <div class="section-heading">
+        <p class="eyebrow">{content.faq.kicker}</p>
+        <h2 id="faq-title">{content.faq.title}</h2>
+      </div>
+      <div class="faq-list">
+        {content.faq.items.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}<span aria-hidden="true"></span></summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sources-section" aria-labelledby="sources-title">
+    <div class="shell sources-layout">
+      <div>
+        <p class="eyebrow">{content.sources.kicker}</p>
+        <h2 id="sources-title">{content.sources.title}</h2>
+      </div>
+      <div>
+        <p>{content.sources.text}</p>
+        <ul class="source-list">
+          {content.sources.items.map((source) => <li><a href={source.url} target="_blank" rel="noreferrer">{source.label}<span aria-hidden="true">↗</span></a></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>
+<script is:inline>
+  const header = document.querySelector('[data-site-header]');
+  const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 32);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+</script>

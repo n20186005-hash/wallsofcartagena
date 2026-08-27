@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  lang: 'es' | 'en';
+  htmlLang: string;
+  title: string;
+  description: string;
+  alternateHref: string;
+  alternateLang: string;
+  pagePath?: string;
+  showConsent?: boolean;
+}
+
+const { lang, htmlLang, title, description, alternateHref, alternateLang, pagePath = Astro.url.pathname, showConsent = !['/privacidad/', '/terminos/', '/cookies/', '/en/privacy/', '/en/terms/', '/en/cookies/'].includes(Astro.url.pathname) } = Astro.props;
+const canonical = Astro.site ? new URL(pagePath, Astro.site).href : pagePath;
+const socialImage = Astro.site ? new URL('/photos/murallas-torre.jpg', Astro.site).href : undefined;
+const ogLocale = lang === 'es' ? 'es_CO' : 'en_US';
+const homeHref = lang === 'es' ? '/' : '/en/';
+const cookieHref = lang === 'es' ? '/cookies/' : '/en/cookies/';
+const privacyHref = lang === 'es' ? '/privacidad/' : '/en/privacy/';
+const termsHref = lang === 'es' ? '/terminos/' : '/en/terms/';
+const copy = lang === 'es'
+  ? { consent: 'Privacidad', notice: 'Usamos preferencias locales y, con tu permiso, medición anónima para mejorar esta guía.', accept: 'Aceptar analíticas', decline: 'Solo necesarias', configure: 'Ver configuración' }
+  : { consent: 'Privacy', notice: 'We use local preferences and, with your permission, anonymous measurement to improve this guide.', accept: 'Accept analytics', decline: 'Necessary only', configure: 'View settings' };
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#073b4c" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={alternateLang} href={alternateHref} />
+    <link rel="alternate" hreflang={htmlLang} href={pagePath} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="preload" href="/photos/murallas-torre.jpg" as="image" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={ogLocale} />
+    {Astro.site && <meta property="og:url" content={canonical} />}
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{lang === 'es' ? 'Saltar al contenido' : 'Skip to content'}</a>
+    <slot />
+    <footer class="site-footer">
+      <div class="footer-grid shell">
+        <a class="footer-brand" href={homeHref} aria-label={lang === 'es' ? 'Inicio de Guía de las Murallas de Cartagena' : 'Cartagena Walls Guide home'}>
+          <img src="/mark.svg" width="40" height="40" alt="" />
+          <span>{lang === 'es' ? 'Murallas de Cartagena' : 'Cartagena Walls'}</span>
+        </a>
+        <div class="footer-links" aria-label={lang === 'es' ? 'Información legal' : 'Legal information'}>
+          <a href={privacyHref}>{lang === 'es' ? 'Privacidad' : 'Privacy'}</a>
+          <a href={termsHref}>{lang === 'es' ? 'Términos' : 'Terms'}</a>
+          <a href={cookieHref}>{lang === 'es' ? 'Cookies' : 'Cookies'}</a>
+        </div>
+        <p class="footer-provenance">{lang === 'es' ? 'Fuentes públicas contrastadas: UNESCO, Colombia Travel y Aeropuerto Internacional Rafael Núñez.' : 'Public sources checked: UNESCO, Colombia Travel, and Rafael Núñez International Airport.'}</p>
+      </div>
+      <div class="footer-rule shell"></div>
+      <div class="footer-bottom shell">
+        <p>{lang === 'es' ? 'Guía independiente y sin ánimo de lucro. No es un sitio oficial.' : 'An independent, not-for-profit guide. Not an official website.'}</p>
+        <p>{lang === 'es' ? '© 2026 Guía de las Murallas de Cartagena' : '© 2026 Cartagena Walls Guide'}</p>
+      </div>
+    </footer>
+    {showConsent && <>
+    <aside class="consent-banner" data-consent-banner aria-label={copy.consent} hidden>
+      <div>
+        <p class="consent-title">{copy.consent}</p>
+        <p>{copy.notice}</p>
+      </div>
+      <div class="consent-actions">
+        <a class="text-action" href={cookieHref}>{copy.configure}</a>
+        <button class="button button-quiet" data-consent="necessary">{copy.decline}</button>
+        <button class="button" data-consent="analytics">{copy.accept}</button>
+      </div>
+    </aside>
+    <script is:inline>
+      const consentKey = 'murallas-cookie-consent';
+      const addAnalytics = () => {
+        if (window.__murallasAnalyticsLoaded) return;
+        window.__murallasAnalyticsLoaded = true;
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-HXM22WWPKP', { anonymize_ip: true });
+      };
+      const currentConsent = localStorage.getItem(consentKey);
+      if (currentConsent === 'analytics') addAnalytics();
+      const banner = document.querySelector('[data-consent-banner]');
+      if (!currentConsent && banner) banner.hidden = false;
+      document.querySelectorAll('[data-consent]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const value = button.dataset.consent;
+          localStorage.setItem(consentKey, value);
+          if (value === 'analytics') addAnalytics();
+          if (banner) banner.hidden = true;
+          window.dispatchEvent(new CustomEvent('murallas-consent-change', { detail: value }));
+        });
+      });
+    </script>
+    </>}
+  </body>
+</html>

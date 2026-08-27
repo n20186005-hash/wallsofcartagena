@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Emblema de las Murallas de Cartagena</title>
+  <desc id="desc">Una torre almenada dorada sobre el mar azul.</desc>
+  <rect width="128" height="128" rx="28" fill="#073b4c"/>
+  <path d="M19 91h90v13H19z" fill="#d9a441"/>
+  <path d="M29 76h14V51h9v9h8V51h9v9h8V51h9v25h13v15H29z" fill="#e5b85a"/>
+  <path d="M42 47V34h11v7h8v-7h11v7h8v-7h11v13" fill="#e5b85a"/>
+  <path d="M39 102c8-6 16-6 24 0 8 6 16 6 24 0 8-6 16-6 24 0" fill="none" stroke="#7ad6d2" stroke-width="5" stroke-linecap="round"/>
+  <path d="M51 67h26v24H51z" fill="#073b4c"/>
+</svg>

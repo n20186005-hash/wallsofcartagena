@@ -1,0 +1,18 @@
+---
+import AttractionPage from '../../components/AttractionPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { content } from '../../data/site-data';
+
+const page = content.en;
+---
+
+<BaseLayout
+  lang={page.locale}
+  htmlLang={page.htmlLang}
+  title={page.title}
+  description={page.description}
+  alternateHref="/"
+  alternateLang="es-CO"
+>
+  <AttractionPage content={page} />
+</BaseLayout>
