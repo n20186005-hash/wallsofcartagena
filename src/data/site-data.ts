@@ -72,9 +72,9 @@ export const content: Record<Locale, Content> = {
       kicker: 'Acerca de las Murallas de Cartagena',
       title: 'Sobre las Murallas de Cartagena en Cartagena de Indias',
       paragraphs: [
-        'Bienvenido a las <strong>Murallas de Cartagena</strong>, reconocidas ampliamente como el núcleo central de las <strong>Murallas de Cartagena</strong>. Ubicadas en el corazón histórico de <strong>Cartagena de Indias</strong>, <strong>Bolívar</strong>, <strong>Colombia</strong>, este destino funciona como el eje principal para quienes recorren la región. Murallas de Cartagena → Cartagena de Indias → Bolívar → Colombia.',
+        'Bienvenido a las Murallas de Cartagena, reconocidas ampliamente como el núcleo central de las Murallas de Cartagena. Ubicadas en el corazón histórico de Cartagena de Indias, Bolívar, Colombia, este destino funciona como el eje principal para quienes recorren la región. Murallas de Cartagena → Cartagena de Indias → Bolívar → Colombia.',
         'Las Murallas de Cartagena forman parte de un sistema defensivo que protegió durante siglos uno de los puertos estratégicos del Caribe. En el tramo de San Diego, la piedra, las garitas y el trazado urbano permiten apreciar cómo la defensa se integró a la vida cotidiana de la ciudad.',
-        'Hoy no se visita un monumento aislado. El paseo conecta miradores, barrios históricos y la relación permanente entre la ciudad amurallada y el mar. Recorre con calma, respeta los desniveles y deja que la escala del recinto revele su historia. Al visitar las Murallas de Cartagena, quienes recorren el lugar pueden explorar con facilidad monumentos históricos y puntos de interés cercanos, entre ellos <strong>Las Bóvedas</strong> y la <strong>Plaza de San Diego</strong>.',
+        'Hoy no se visita un monumento aislado. El paseo conecta miradores, barrios históricos y la relación permanente entre la ciudad amurallada y el mar. Recorre con calma, respeta los desniveles y deja que la escala del recinto revele su historia. Al visitar las Murallas de Cartagena, quienes recorren el lugar pueden explorar con facilidad monumentos históricos y puntos de interés cercanos, entre ellos Las Bóvedas y la Plaza de San Diego.',
       ],
       quote: 'Cartagena cuenta con el sistema de fortificaciones más extenso y uno de los más completos de América del Sur.',
       attribution: 'UNESCO, síntesis de valor universal excepcional.',
@@ -207,9 +207,9 @@ export const content: Record<Locale, Content> = {
       kicker: 'About Walls of Cartagena',
       title: 'About Walls of Cartagena in Cartagena de Indias',
       paragraphs: [
-        'Welcome to <strong>Walls of Cartagena</strong>, widely recognized as the central <strong>Walls of Cartagena</strong>. Located in the heart of <strong>Cartagena de Indias</strong>, <strong>Bolívar</strong>, <strong>Colombia</strong>, this destination serves as a primary hub for travellers visiting the region. Walls of Cartagena → Cartagena de Indias → Bolívar → Colombia.',
+        'Welcome to Walls of Cartagena, widely recognized as the central Walls of Cartagena. Located in the heart of Cartagena de Indias, Bolívar, Colombia, this destination serves as a primary hub for travellers visiting the region. Walls of Cartagena → Cartagena de Indias → Bolívar → Colombia.',
         'Cartagena’s walls are part of a defensive system that protected one of the Caribbean’s strategic ports for centuries. In San Diego, stonework, sentry boxes, and the urban plan show how military defence became interwoven with everyday city life.',
-        'This is not an isolated monument. The walk connects viewpoints, historic neighbourhoods, and the enduring relationship between the walled city and the sea. Move slowly, respect changes in level, and let the scale of the enclosure tell its story. When visiting Walls of Cartagena, visitors can easily explore surrounding historical landmarks and points of interest, including <strong>Las Bóvedas</strong> and <strong>Plaza de San Diego</strong>.',
+        'This is not an isolated monument. The walk connects viewpoints, historic neighbourhoods, and the enduring relationship between the walled city and the sea. Move slowly, respect changes in level, and let the scale of the enclosure tell its story. When visiting Walls of Cartagena, visitors can easily explore surrounding historical landmarks and points of interest, including Las Bóvedas and Plaza de San Diego.',
       ],
       quote: 'Cartagena has the most extensive and one of the most complete systems of military fortifications in South America.',
       attribution: 'UNESCO, brief synthesis of Outstanding Universal Value.',

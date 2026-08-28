@@ -20,7 +20,7 @@ const cookieCopy = lang === 'es'
   <header class="legal-header shell">
     <a class="brand legal-brand" href={homeHref} aria-label={lang === 'es' ? 'Inicio de la Guía de las Murallas de Cartagena' : 'Cartagena Walls Guide home'}>
       <img src="/mark.svg" width="42" height="42" alt="" />
-      <span><strong>{lang === 'es' ? 'Murallas' : 'Cartagena'}</strong><small>{lang === 'es' ? 'Cartagena de Indias' : 'Walls guide'}</small></span>
+      <span><span class="text-emphasis">{lang === 'es' ? 'Murallas' : 'Cartagena'}</span><small>{lang === 'es' ? 'Cartagena de Indias' : 'Walls guide'}</small></span>
     </a>
     <a class="back-link" href={homeHref}>← {lang === 'es' ? 'Volver a la guía' : 'Back to the guide'}</a>
   </header>
@@ -44,11 +44,11 @@ const cookieCopy = lang === 'es'
         <h2 id="preference-title">{lang === 'es' ? 'Tus preferencias' : 'Your preferences'}</h2>
         <form data-preference-form>
           <label class="preference-option">
-            <span><strong>{cookieCopy.essential}</strong><small>{lang === 'es' ? 'Siempre activas para recordar tu decisión.' : 'Always active to remember your choice.'}</small></span>
+            <span><span class="text-emphasis">{cookieCopy.essential}</span><small>{lang === 'es' ? 'Siempre activas para recordar tu decisión.' : 'Always active to remember your choice.'}</small></span>
             <input type="checkbox" checked disabled aria-label={cookieCopy.essential} />
           </label>
           <label class="preference-option">
-            <span><strong>{cookieCopy.analytics}</strong><small>{cookieCopy.description}</small></span>
+            <span><span class="text-emphasis">{cookieCopy.analytics}</span><small>{cookieCopy.description}</small></span>
             <input type="checkbox" data-analytics-toggle aria-label={cookieCopy.analytics} />
           </label>
           <button class="button" type="submit">{cookieCopy.save}</button>
