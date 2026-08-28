@@ -7,17 +7,37 @@ interface Props {
 
 const { content } = Astro.props;
 const homeHref = content.locale === 'es' ? '/' : '/en/';
-const mapSrc = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.898738713571!2d-75.54743992302028!3d10.429609789698866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f9f3fb420c7%3A0x2553d110a2ea22e0!2sWalls%20of%20Cartagena!5e0!3m2!1ses-419!2sCO!4v1787818377875!5m2!1ses-419!2sCO';
+const mapSrc = content.locale === 'es'
+  ? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.898738713571!2d-75.54743992302028!3d10.429609789698866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f9f3fb420c7%3A0x2553d110a2ea22e0!2sMurallas%20de%20Cartagena!5e0!3m2!1ses!2sco!4v1787818377875!5m2!1ses!2sco'
+  : 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.898738713571!2d-75.54743992302028!3d10.429609789698866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef62f9f3fb420c7%3A0x2553d110a2ea22e0!2sWalls%20of%20Cartagena!5e0!3m2!1sen!2sco!4v1787818377875!5m2!1sen!2sco';
+const fullName = content.locale === 'es' ? 'Murallas de Cartagena' : 'Walls of Cartagena';
+const shortName = content.locale === 'es' ? 'Murallas de Cartagena' : 'Walls of Cartagena';
+const cityName = 'Cartagena de Indias';
+const stateProvince = 'Bolívar';
+const mapsShareUrl = 'https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6';
+const govtTourismUrl = content.locale === 'es'
+  ? 'https://colombia.travel/es/cartagena-de-indias/murallas'
+  : 'https://colombia.travel/en/cartagena-de-indias-colombia/walls-cartagena';
+const heroImage = Astro.site ? new URL('/photos/murallas-torre.jpg', Astro.site).href : '/photos/murallas-torre.jpg';
+const baseUrl = Astro.site ? new URL('/#attraction', Astro.site).href : '/#attraction';
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+
 const schema = {
   '@context': 'https://schema.org',
-  '@type': ['TouristAttraction', 'LocalBusiness'],
-  name: content.locale === 'es' ? 'Murallas de Cartagena' : 'Walls of Cartagena',
+  '@type': 'TouristAttraction',
+  '@id': baseUrl,
+  name: fullName,
+  alternateName: [shortName, `${cityName} ${fullName}`],
   description: content.description,
+  url: pageUrl,
+  image: [heroImage],
+  isAccessibleForFree: true,
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Cl. de la Serrezuela, San Diego',
-    addressLocality: 'Cartagena de Indias',
-    addressRegion: 'Bolívar',
+    addressLocality: cityName,
+    addressRegion: stateProvince,
+    postalCode: '130001',
     addressCountry: 'CO',
   },
   geo: {
@@ -25,6 +45,7 @@ const schema = {
     latitude: 10.429609789698866,
     longitude: -75.54743992302028,
   },
+  hasMap: mapsShareUrl,
   openingHours: content.locale === 'es'
     ? 'Los horarios y condiciones de acceso varían por tramo; verifique antes de la visita.'
     : 'Opening times and access conditions vary by section; verify before visiting.',
@@ -34,18 +55,45 @@ const schema = {
     reviewCount: '34188',
     bestRating: '5',
   },
-  image: Astro.site ? new URL('/photos/murallas-torre.jpg', Astro.site).href : '/photos/murallas-torre.jpg',
-  url: Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined,
-  sameAs: 'https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6',
+  sameAs: [
+    mapsShareUrl,
+    govtTourismUrl,
+  ],
 };
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: content.faq.items.map((item) => ({
-    '@type': 'Question',
-    name: item.q,
-    acceptedAnswer: { '@type': 'Answer', text: item.a },
-  })),
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: content.locale === 'es'
+        ? '¿Dónde se encuentran las Murallas de Cartagena?'
+        : 'Where is Walls of Cartagena located?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: content.locale === 'es'
+          ? 'Las Murallas de Cartagena se encuentran en Cartagena de Indias, Bolívar, Colombia.'
+          : 'Walls of Cartagena is located in Cartagena de Indias, Bolívar, Colombia.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: content.locale === 'es'
+        ? '¿Las Murallas de Cartagena son gratuitas?'
+        : 'Is Walls of Cartagena free to visit?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: content.locale === 'es'
+          ? 'Sí, las Murallas de Cartagena son un espacio público y su acceso general es gratuito durante todo el año, aunque las condiciones pueden variar por tramo o eventos.'
+          : 'Yes, Walls of Cartagena is a public space and is generally free to visit year-round, though conditions may vary by section or events.',
+      },
+    },
+    ...content.faq.items.map((item) => ({
+      '@type': 'Question' as const,
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer' as const, text: item.a },
+    })),
+  ],
 };
 ---
 
@@ -232,10 +280,16 @@ const faqSchema = {
         <p class="eyebrow">{content.map.kicker}</p>
         <h2 id="map-title">{content.map.title}</h2>
         <p>{content.map.text}</p>
-        <a class="map-link" href="https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6" target="_blank" rel="noreferrer">{content.locale === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'} <span aria-hidden="true">↗</span></a>
+        <a class="map-link" href={mapsShareUrl} target="_blank" rel="noreferrer">{content.locale === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'} <span aria-hidden="true">↗</span></a>
+        <p class="govt-link">
+          {content.locale === 'es' ? 'Para actualizaciones oficiales e información turística regional, visita ' : 'For official updates and regional tourism information, visit '}
+          <a href={govtTourismUrl} target="_blank" rel="noopener noreferrer">
+            {content.locale === 'es' ? 'Colombia / Bolívar - Portal Oficial de Turismo' : 'Colombia / Bolívar Official Tourism Portal'}
+          </a>.
+        </p>
       </div>
       <div class="map-frame">
-        <iframe src={mapSrc} title={content.map.label} width="600" height="450" style="border:0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe src={mapSrc} title={content.map.label} width="100%" height="450" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
     </div>
   </section>

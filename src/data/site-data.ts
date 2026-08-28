@@ -44,8 +44,8 @@ export const content: Record<Locale, Content> = {
     locale: 'es',
     htmlLang: 'es-CO',
     siteName: 'Guía de las Murallas de Cartagena',
-    title: 'Murallas de Cartagena | Guía independiente para visitar San Diego',
-    description: 'Una guía independiente y sin ánimo de lucro para comprender y recorrer las Murallas de Cartagena, en el corazón histórico de San Diego.',
+    title: 'Murallas de Cartagena (Cartagena de Indias) - Guía de Visitante y Ubicación',
+    description: 'Descubre las Murallas de Cartagena, el emblemático monumento en Cartagena de Indias, Bolívar, Colombia. Consulta el mapa de ubicación, detalles de acceso, lugares cercanos como Las Bóvedas y consejos de viaje.',
     navigation: [
       { label: 'La muralla', href: '#muralla' },
       { label: 'Historia', href: '#historia' },
@@ -61,26 +61,27 @@ export const content: Record<Locale, Content> = {
     language: { label: 'Read in English', href: '/en/', short: 'EN' },
     hero: {
       eyebrow: 'San Diego · Cartagena de Indias, Colombia',
-      title: 'Una línea de piedra entre la ciudad y el Caribe.',
-      lead: 'Camina por una de las defensas coloniales más extensas de América del Sur y lee la ciudad desde sus baluartes, pasos y horizontes marítimos.',
+      title: 'Murallas de Cartagena (Cartagena de Indias)',
+      lead: 'Bienvenido a las Murallas de Cartagena, reconocidas como el conjunto emblemático de Murallas de Cartagena. Ubicadas en el corazón de Cartagena de Indias, Bolívar, Colombia, este destino es el punto de referencia principal para quienes visitan la región. Camina por una de las defensas coloniales más extensas de América del Sur y lee la ciudad desde sus baluartes, pasos y horizontes marítimos.',
       primary: 'Planifica tu recorrido',
       secondary: 'Conoce su historia',
-      imageAlt: 'Garita de piedra de las Murallas de Cartagena bajo un cielo azul',
+      imageAlt: 'Murallas de Cartagena - Vista principal en Cartagena de Indias, Colombia',
     },
     facts: facts.es,
     overview: {
-      kicker: 'Un recinto que sigue vivo',
-      title: 'Más que un borde: una manera de entender Cartagena.',
+      kicker: 'Acerca de las Murallas de Cartagena',
+      title: 'Sobre las Murallas de Cartagena en Cartagena de Indias',
       paragraphs: [
+        'Bienvenido a las <strong>Murallas de Cartagena</strong>, reconocidas ampliamente como el núcleo central de las <strong>Murallas de Cartagena</strong>. Ubicadas en el corazón histórico de <strong>Cartagena de Indias</strong>, <strong>Bolívar</strong>, <strong>Colombia</strong>, este destino funciona como el eje principal para quienes recorren la región. Murallas de Cartagena → Cartagena de Indias → Bolívar → Colombia.',
         'Las Murallas de Cartagena forman parte de un sistema defensivo que protegió durante siglos uno de los puertos estratégicos del Caribe. En el tramo de San Diego, la piedra, las garitas y el trazado urbano permiten apreciar cómo la defensa se integró a la vida cotidiana de la ciudad.',
-        'Hoy no se visita un monumento aislado. El paseo conecta miradores, barrios históricos y la relación permanente entre la ciudad amurallada y el mar. Recorre con calma, respeta los desniveles y deja que la escala del recinto revele su historia.',
+        'Hoy no se visita un monumento aislado. El paseo conecta miradores, barrios históricos y la relación permanente entre la ciudad amurallada y el mar. Recorre con calma, respeta los desniveles y deja que la escala del recinto revele su historia. Al visitar las Murallas de Cartagena, quienes recorren el lugar pueden explorar con facilidad monumentos históricos y puntos de interés cercanos, entre ellos <strong>Las Bóvedas</strong> y la <strong>Plaza de San Diego</strong>.',
       ],
       quote: 'Cartagena cuenta con el sistema de fortificaciones más extenso y uno de los más completos de América del Sur.',
       attribution: 'UNESCO, síntesis de valor universal excepcional.',
     },
     history: {
-      kicker: 'Historia en capas',
-      title: 'Dos siglos de ingeniería, defensa y adaptación.',
+      kicker: 'Historia y significado',
+      title: 'Historia e importancia de las Murallas de Cartagena',
       intro: 'El recinto no nació de una sola obra. Su forma actual es el resultado de sucesivas decisiones militares, marítimas y urbanas, tomadas mientras Cartagena crecía como puerto colonial.',
       milestones: [
         { year: '1586', title: 'Un puerto bajo presión', text: 'UNESCO sitúa en este periodo el inicio de las defensas españolas que respondían a la importancia estratégica de la bahía y de sus accesos.' },
@@ -90,8 +91,8 @@ export const content: Record<Locale, Content> = {
       ],
     },
     visit: {
-      kicker: 'Recorrer con intención',
-      title: 'Una visita que privilegia la observación.',
+      kicker: 'Ubicación y cómo llegar',
+      title: 'Ubicación y forma de visitar las Murallas de Cartagena en Cartagena de Indias',
       intro: 'El mejor recorrido no es una carrera por la parte alta. Alterna el paseo sobre la muralla con las calles de San Diego y el Centro, y toma en cuenta el calor, la luz y el flujo peatonal.',
       items: [
         { icon: '◷', title: 'Mejor momento', text: 'Las primeras horas de la mañana y el final de la tarde suelen ofrecer luz más suave y menor exposición directa. El acceso, cierres parciales y actividades pueden variar; verifícalos antes de salir.' },
@@ -102,7 +103,7 @@ export const content: Record<Locale, Content> = {
     experience: {
       title: 'Piedra coralina, sombra breve y horizonte abierto.',
       text: 'La experiencia cambia con cada tramo. A ras de calle, el muro enmarca el tejido colonial; arriba, convierte la línea costera en una lectura continua de ciudad, mar y fortificación. Usa calzado con buena sujeción y evita sentarte o subir a sectores no habilitados.',
-      imageAlt: 'Tramo de muralla y garita de Cartagena de Indias',
+      imageAlt: 'Las Bóvedas cerca de las Murallas de Cartagena',
       captions: ['Fotografía: Joe Ross · CC BY-SA 2.0', 'Fuente: Wikimedia Commons'],
     },
     practical: {
@@ -129,8 +130,8 @@ export const content: Record<Locale, Content> = {
       ],
     },
     nearby: {
-      kicker: 'Continuar el contexto',
-      title: 'Tres lugares para ampliar la lectura de la ciudad.',
+      kicker: 'Monumentos cercanos',
+      title: 'Lugares y monumentos alrededor de las Murallas de Cartagena',
       text: 'Estos sitios se incluyen por su valor histórico y urbano, no como una lista comercial. Confirma horarios, condiciones y accesibilidad directamente antes de la visita.',
       cards: [
         { title: 'Las Bóvedas', text: 'Antiguas construcciones abovedadas integradas al borde defensivo. Ofrecen otra escala para observar el vínculo entre arquitectura militar y vida urbana.' },
@@ -140,8 +141,8 @@ export const content: Record<Locale, Content> = {
     },
     map: {
       kicker: 'Punto de referencia',
-      title: 'Ubicación en San Diego',
-      text: 'El mapa señala la referencia compartida para este tramo. Úsalo para orientarte, pero confirma accesos peatonales y restricciones vigentes antes de desplazarte.',
+      title: 'Ubicación de las Murallas de Cartagena en San Diego',
+      text: 'El mapa señala la referencia compartida para este tramo. Úsalo para orientarte, pero confirma accesos peatonales y restricciones vigentes antes de desplazarte. Para actualizaciones oficiales e información turística regional, consulta el Portal Oficial de Turismo de Colombia / Bolívar.',
       label: 'Mapa de las Murallas de Cartagena',
     },
     faq: {
@@ -178,8 +179,8 @@ export const content: Record<Locale, Content> = {
     locale: 'en',
     htmlLang: 'en',
     siteName: 'Cartagena Walls Guide',
-    title: 'Cartagena Walls | Independent guide to visiting San Diego',
-    description: 'An independent, not-for-profit guide to understanding and walking Cartagena’s walls in the historic San Diego district.',
+    title: 'Walls of Cartagena (Cartagena de Indias) - Visitor Guide & Location',
+    description: 'Discover Walls of Cartagena, the iconic landmark in Cartagena de Indias, Bolívar, Colombia. View location map, opening details, nearby Las Bóvedas, and travel tips.',
     navigation: [
       { label: 'The walls', href: '#muralla' },
       { label: 'History', href: '#historia' },
@@ -195,26 +196,27 @@ export const content: Record<Locale, Content> = {
     language: { label: 'Leer en español', href: '/', short: 'ES' },
     hero: {
       eyebrow: 'San Diego · Cartagena de Indias, Colombia',
-      title: 'A line of stone between the city and the Caribbean.',
-      lead: 'Walk one of South America’s most extensive colonial defences, and read the city through its bastions, passageways, and maritime horizon.',
+      title: 'Walls of Cartagena (Cartagena de Indias)',
+      lead: 'Welcome to Walls of Cartagena, widely recognized as the central Walls of Cartagena landmark. Located in the heart of Cartagena de Indias, Bolívar, Colombia, this destination serves as a primary hub for travellers visiting the region. Walk one of South America’s most extensive colonial defences, and read the city through its bastions, passageways, and maritime horizon.',
       primary: 'Plan your walk',
       secondary: 'Explore the history',
-      imageAlt: 'Stone sentry box on Cartagena’s walls under a blue sky',
+      imageAlt: 'Walls of Cartagena - Main view in Cartagena de Indias, Colombia',
     },
     facts: facts.en,
     overview: {
-      kicker: 'A living enclosure',
-      title: 'More than an edge: a way to understand Cartagena.',
+      kicker: 'About Walls of Cartagena',
+      title: 'About Walls of Cartagena in Cartagena de Indias',
       paragraphs: [
+        'Welcome to <strong>Walls of Cartagena</strong>, widely recognized as the central <strong>Walls of Cartagena</strong>. Located in the heart of <strong>Cartagena de Indias</strong>, <strong>Bolívar</strong>, <strong>Colombia</strong>, this destination serves as a primary hub for travellers visiting the region. Walls of Cartagena → Cartagena de Indias → Bolívar → Colombia.',
         'Cartagena’s walls are part of a defensive system that protected one of the Caribbean’s strategic ports for centuries. In San Diego, stonework, sentry boxes, and the urban plan show how military defence became interwoven with everyday city life.',
-        'This is not an isolated monument. The walk connects viewpoints, historic neighbourhoods, and the enduring relationship between the walled city and the sea. Move slowly, respect changes in level, and let the scale of the enclosure tell its story.',
+        'This is not an isolated monument. The walk connects viewpoints, historic neighbourhoods, and the enduring relationship between the walled city and the sea. Move slowly, respect changes in level, and let the scale of the enclosure tell its story. When visiting Walls of Cartagena, visitors can easily explore surrounding historical landmarks and points of interest, including <strong>Las Bóvedas</strong> and <strong>Plaza de San Diego</strong>.',
       ],
       quote: 'Cartagena has the most extensive and one of the most complete systems of military fortifications in South America.',
       attribution: 'UNESCO, brief synthesis of Outstanding Universal Value.',
     },
     history: {
-      kicker: 'History in layers',
-      title: 'Two centuries of engineering, defence, and adaptation.',
+      kicker: 'History and significance',
+      title: 'History and Significance of Walls of Cartagena',
       intro: 'The enclosure was not created in one campaign. Its present form reflects successive military, maritime, and urban decisions made as Cartagena grew into a colonial port.',
       milestones: [
         { year: '1586', title: 'A port under pressure', text: 'UNESCO places the beginnings of Spanish defences in this period, responding to the strategic importance of the bay and its channels.' },
@@ -224,8 +226,8 @@ export const content: Record<Locale, Content> = {
       ],
     },
     visit: {
-      kicker: 'Walk with intent',
-      title: 'A visit shaped by observation.',
+      kicker: 'Location and how to visit',
+      title: 'Location & How to Visit Walls of Cartagena in Cartagena de Indias',
       intro: 'The most rewarding route is not a race along the upper walkway. Alternate the wall walk with San Diego and Centro’s streets, and account for heat, light, and pedestrian flow.',
       items: [
         { icon: '◷', title: 'Best time', text: 'Early morning and late afternoon often bring softer light and less direct exposure. Access, partial closures, and activities can change, so check before setting out.' },
@@ -236,7 +238,7 @@ export const content: Record<Locale, Content> = {
     experience: {
       title: 'Coral stone, fleeting shade, and an open horizon.',
       text: 'The experience changes along each stretch. At street level, the wall frames the colonial fabric; above, it turns the coastline into a continuous reading of city, sea, and fortification. Wear secure footwear and do not sit or climb in unauthorised areas.',
-      imageAlt: 'Cartagena de Indias wall section and sentry box',
+      imageAlt: 'Las Bóvedas near Walls of Cartagena',
       captions: ['Photo: Joe Ross · CC BY-SA 2.0', 'Source: Wikimedia Commons'],
     },
     practical: {
@@ -263,8 +265,8 @@ export const content: Record<Locale, Content> = {
       ],
     },
     nearby: {
-      kicker: 'Extend the context',
-      title: 'Three places that deepen a reading of the city.',
+      kicker: 'Nearby landmarks',
+      title: 'Landmarks & Attractions Around Walls of Cartagena',
       text: 'These sites are included for historical and urban value, not as commercial recommendations. Confirm opening conditions and accessibility directly before visiting.',
       cards: [
         { title: 'Las Bóvedas', text: 'Historic vaulted structures integrated into the defensive edge. They offer another scale for understanding the relationship between military architecture and urban life.' },
@@ -274,8 +276,8 @@ export const content: Record<Locale, Content> = {
     },
     map: {
       kicker: 'Reference point',
-      title: 'Location in San Diego',
-      text: 'The map marks the shared reference for this section. Use it to orient yourself, then verify pedestrian approaches and current restrictions before travelling.',
+      title: 'Location of Walls of Cartagena in San Diego',
+      text: 'The map marks the shared reference for this section. Use it to orient yourself, then verify pedestrian approaches and current restrictions before travelling. For official updates and regional tourism information, visit Colombia / Bolívar Official Tourism Portal.',
       label: 'Map of Cartagena’s Walls',
     },
     faq: {

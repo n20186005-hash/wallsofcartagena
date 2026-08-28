@@ -46,6 +46,7 @@ const copy = lang === 'es'
     <meta property="og:locale" content={ogLocale} />
     {Astro.site && <meta property="og:url" content={canonical} />}
     {socialImage && <meta property="og:image" content={socialImage} />}
+    {socialImage && <meta property="og:image:alt" content={lang === 'es' ? 'Murallas de Cartagena - Vista principal en Cartagena de Indias, Colombia' : 'Walls of Cartagena - Main view in Cartagena de Indias, Colombia'} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
