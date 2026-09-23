@@ -1,5 +1,6 @@
 ---
 import type { Content } from '../data/site-data';
+import WeatherSection from './WeatherSection.astro';
 
 interface Props {
   content: Content;
@@ -52,7 +53,7 @@ const schema = {
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: '4.8',
-    reviewCount: '34188',
+    reviewCount: '34235',
     bestRating: '5',
   },
   sameAs: [
@@ -237,6 +238,8 @@ const faqSchema = {
     </div>
   </section>
 
+  <WeatherSection lang={content.locale} />
+
   <section class="food-section section" aria-labelledby="food-title">
     <div class="shell split-section">
       <div class="section-heading">
@@ -290,6 +293,81 @@ const faqSchema = {
       </div>
       <div class="map-frame">
         <iframe src={mapSrc} title={content.map.label} width="100%" height="450" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="seasonal-section section" id="temporada" aria-labelledby="seasonal-title">
+    <div class="shell">
+      <div class="center-heading">
+        <p class="eyebrow">{content.seasonal.kicker}</p>
+        <h2 id="seasonal-title">{content.seasonal.title}</h2>
+        <p>{content.seasonal.intro}</p>
+      </div>
+      <div class="table-wrap">
+        <table class="seasonal-table">
+          <thead>
+            <tr>
+              <th>{content.locale === 'es' ? 'Trimestre' : 'Quarter'}</th>
+              <th>{content.locale === 'es' ? 'Condiciones' : 'Conditions'}</th>
+              <th>{content.locale === 'es' ? 'Temperatura' : 'Temperature'}</th>
+              <th>{content.locale === 'es' ? 'Lluvia' : 'Rain'}</th>
+              <th>{content.locale === 'es' ? 'Afluencia' : 'Crowds'}</th>
+              <th>{content.locale === 'es' ? 'Ideal para' : 'Best for'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {content.seasonal.rows.map((r) => (
+              <tr>
+                <th scope="row">{r.period}</th>
+                <td>{r.conditions}</td>
+                <td>{r.temp}</td>
+                <td>{r.rain}</td>
+                <td>{r.crowd}</td>
+                <td>{r.bestFor}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="itineraries-section section" id="rutas" aria-labelledby="itineraries-title">
+    <div class="shell">
+      <div class="center-heading">
+        <p class="eyebrow">{content.itineraries.kicker}</p>
+        <h2 id="itineraries-title">{content.itineraries.title}</h2>
+        <p>{content.itineraries.intro}</p>
+      </div>
+      <div class="itinerary-grid">
+        {content.itineraries.routes.map((r) => (
+          <article class="itinerary-card">
+            <span class="itinerary-tag">{r.tag}</span>
+            <h3>{r.title}</h3>
+            <p>{r.text}</p>
+            <ol>{r.steps.map((s) => <li>{s}</li>)}</ol>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="responsibility-section section" id="responsabilidad" aria-labelledby="responsibility-title">
+    <div class="shell split-section">
+      <div class="section-heading">
+        <p class="eyebrow">{content.responsibility.kicker}</p>
+        <h2 id="responsibility-title">{content.responsibility.title}</h2>
+        <p>{content.responsibility.intro}</p>
+      </div>
+      <div class="responsibility-grid">
+        {content.responsibility.groups.map((g) => (
+          <article class="responsibility-card">
+            <span class="resp-icon" aria-hidden="true">{g.icon}</span>
+            <h3>{g.title}</h3>
+            <p>{g.text}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>

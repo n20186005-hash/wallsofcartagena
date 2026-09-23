@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 const configuredSite = process.env.SITE_URL?.trim();
-const site = configuredSite ? configuredSite.replace(/\/?$/, '/') : undefined;
+const site = (configuredSite || 'https://wallsofcartagena.com').replace(/\/?$/, '/');
 
 export default defineConfig({
   site,

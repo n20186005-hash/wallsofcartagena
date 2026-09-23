@@ -1,0 +1,157 @@
+---
+interface Props {
+  lang: 'es' | 'en';
+}
+const { lang } = Astro.props;
+const copy = lang === 'es'
+  ? {
+      kicker: 'Clima en Cartagena de Indias',
+      title: 'Clima actual y pronóstico',
+      intro: 'El clima caribeño cambia deprisa. Esta información se actualiza con frecuencia para ayudarte a decidir el mejor momento del paseo.',
+      loading: 'Cargando el clima actual…',
+      now: 'Ahora',
+      feels: 'Sensación',
+      humidity: 'Humedad',
+      wind: 'Viento',
+      rain: 'Lluvia',
+      uv: 'UV',
+      week: 'Próximos 7 días',
+      error: 'No pudimos cargar el clima en este momento. Intenta de nuevo más tarde.',
+      noData: 'Sin datos',
+      alert: 'Aviso',
+      risk: 'Precaución',
+      outfit: 'Qué llevar puesto',
+      plan: 'Cómo organizar el paseo',
+      items: 'Qué llevar contigo',
+    }
+  : {
+      kicker: 'Weather in Cartagena de Indias',
+      title: 'Current weather and forecast',
+      intro: 'Caribbean weather shifts quickly. This information refreshes often to help you choose the best time for the walk.',
+      loading: 'Loading current weather…',
+      now: 'Now',
+      feels: 'Feels like',
+      humidity: 'Humidity',
+      wind: 'Wind',
+      rain: 'Rain',
+      uv: 'UV',
+      week: 'Next 7 days',
+      error: 'We could not load the weather right now. Please try again later.',
+      noData: 'No data',
+      alert: 'Alert',
+      risk: 'Caution',
+      outfit: 'What to wear',
+      plan: 'How to plan the walk',
+      items: 'What to bring',
+    };
+---
+
+<section class="weather-section section" aria-labelledby="weather-title">
+  <div class="shell weather-layout">
+    <div class="section-heading">
+      <p class="eyebrow">{copy.kicker}</p>
+      <h2 id="weather-title">{copy.title}</h2>
+      <p>{copy.intro}</p>
+    </div>
+    <div class="weather-grid" data-weather data-lang={lang}>
+      <article class="weather-current" data-current aria-live="polite">{copy.loading}</article>
+      <div class="weather-forecast" data-forecast></div>
+      <div class="weather-advice" data-advice></div>
+    </div>
+    <p class="weather-error" data-error hidden>{copy.error}</p>
+  </div>
+</section>
+
+<script>
+  import { wmo, uvLabel, weekdayLabel, buildAdvice } from '../lib/weather';
+
+  const root = document.querySelector<HTMLElement>('[data-weather]');
+  if (root) {
+    const lang = root.dataset.lang === 'en' ? 'en' : 'es';
+    const i18n = {
+      es: {
+        now: 'Ahora', feels: 'Sensación', humidity: 'Humedad', wind: 'Viento', rain: 'Lluvia', uv: 'UV',
+        week: 'Próximos 7 días',       alert: 'Aviso', risk: 'Precaución', outfit: 'Ropa y calzado',
+        plan: 'Plan del paseo', items: 'Qué llevar contigo', noData: 'Sin datos',
+      },
+      en: {
+        now: 'Now', feels: 'Feels like', humidity: 'Humidity', wind: 'Wind', rain: 'Rain', uv: 'UV',
+        week: 'Next 7 days', alert: 'Alert', risk: 'Caution', outfit: 'What to wear',
+        plan: 'How to plan the walk', items: 'What to bring', noData: 'No data',
+      },
+    }[lang];
+    const currentEl = root.querySelector<HTMLElement>('[data-current]');
+    const forecastEl = root.querySelector<HTMLElement>('[data-forecast]');
+    const adviceEl = root.querySelector<HTMLElement>('[data-advice]');
+    const errorEl = root.querySelector<HTMLElement>('[data-error]');
+
+    const num = (v: unknown, d = 0) => (typeof v === 'number' && !Number.isNaN(v)) ? v.toFixed(d) : '–';
+
+    function render(data: any) {
+      const cur = data.current ?? {};
+      const daily = data.daily ?? {};
+      const info = wmo(cur.weather_code ?? 0);
+      const rainProb = daily.precipitation_probability_max?.[0] ?? null;
+      const uv = daily.uv_index_max?.[0] ?? null;
+      const wind = cur.wind_speed_10m ?? null;
+
+      if (currentEl) {
+        currentEl.innerHTML = `
+          <div class="wc-top">
+            <span class="wc-icon" aria-hidden="true">${info.icon}</span>
+            <div>
+              <p class="wc-temp">${num(cur.temperature_2m)}<span>°C</span></p>
+              <p class="wc-cond">${info[lang]}</p>
+            </div>
+          </div>
+          <ul class="wc-stats">
+            <li><span>${i18n.feels}</span><strong>${num(cur.apparent_temperature)}°</strong></li>
+            <li><span>${i18n.humidity}</span><strong>${num(cur.relative_humidity_2m)}%</strong></li>
+            <li><span>${i18n.wind}</span><strong>${num(wind)} km/h</strong></li>
+            <li><span>${i18n.rain}</span><strong>${rainProb === null ? '–' : num(rainProb) + '%'}</strong></li>
+            <li><span>${i18n.uv}</span><strong>${uv === null ? '–' : num(uv) + ' · ' + uvLabel(uv, lang)}</strong></li>
+          </ul>`;
+      }
+
+      if (forecastEl) {
+        const days = (daily.time ?? []).map((t: string, i: number) => {
+          const di = wmo(daily.weather_code?.[i] ?? 0);
+          return `<li>
+            <span class="wd-day">${weekdayLabel(t, lang)}</span>
+            <span class="wd-icon" aria-hidden="true">${di.icon}</span>
+            <span class="wd-temp">${num(daily.temperature_2m_min?.[i])}° / ${num(daily.temperature_2m_max?.[i])}°</span>
+            <span class="wd-rain">${daily.precipitation_probability_max?.[i] != null ? num(daily.precipitation_probability_max[i]) + '%' : ''}</span>
+          </li>`;
+        }).join('');
+        forecastEl.innerHTML = `<h3>${i18n.week}</h3><ul class="wd-list">${days}</ul>`;
+      }
+
+      if (adviceEl) {
+        const adv = buildAdvice(data, lang);
+        const block = (title: string, items: string[], cls: string) =>
+          items.length ? `<div class="adv-block ${cls}"><h4>${title}</h4><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul></div>` : '';
+        adviceEl.innerHTML =
+          block(i18n.alert, adv.alert, 'adv-alert') +
+          block(i18n.risk, adv.risk, 'adv-risk') +
+          block(i18n.outfit, adv.outfit, 'adv-outfit') +
+          block(i18n.plan, adv.plan, 'adv-plan') +
+          block(i18n.items, adv.items, 'adv-items');
+      }
+    }
+
+    async function load() {
+      try {
+        const res = await fetch(`/api/weather?lang=${lang}`, { headers: { accept: 'application/json' } });
+        if (!res.ok) throw new Error('http');
+        const data = await res.json();
+        if (data && data.error) throw new Error('data');
+        render(data);
+      } catch {
+        if (errorEl) errorEl.hidden = false;
+        if (currentEl) currentEl.textContent = i18n.noData;
+      }
+    }
+
+    load();
+  }
+</script>

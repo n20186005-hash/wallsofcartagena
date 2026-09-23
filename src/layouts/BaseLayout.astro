@@ -4,6 +4,7 @@ import '../styles/global.css';
 interface Props {
   lang: 'es' | 'en';
   htmlLang: string;
+  siteName: string;
   title: string;
   description: string;
   alternateHref: string;
@@ -12,8 +13,10 @@ interface Props {
   showConsent?: boolean;
 }
 
-const { lang, htmlLang, title, description, alternateHref, alternateLang, pagePath = Astro.url.pathname, showConsent = !['/privacidad/', '/terminos/', '/cookies/', '/en/privacy/', '/en/terms/', '/en/cookies/'].includes(Astro.url.pathname) } = Astro.props;
+const { lang, htmlLang, siteName, title, description, alternateHref, alternateLang, pagePath = Astro.url.pathname, showConsent = !['/privacidad/', '/terminos/', '/cookies/', '/en/privacy/', '/en/terms/', '/en/cookies/'].includes(Astro.url.pathname) } = Astro.props;
 const canonical = Astro.site ? new URL(pagePath, Astro.site).href : pagePath;
+const absUrl = (p: string) => (Astro.site ? new URL(p, Astro.site).href : p);
+const xDefaultHref = absUrl('/');
 const socialImage = Astro.site ? new URL('/photos/murallas-torre.jpg', Astro.site).href : undefined;
 const ogLocale = lang === 'es' ? 'es_CO' : 'en_US';
 const homeHref = lang === 'es' ? '/' : '/en/';
@@ -33,14 +36,17 @@ const copy = lang === 'es'
     <meta name="theme-color" content="#073b4c" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang={alternateLang} href={alternateHref} />
-    <link rel="alternate" hreflang={htmlLang} href={pagePath} />
+    <link rel="alternate" hreflang={lang} href={absUrl(pagePath)} />
+    <link rel="alternate" hreflang={lang === 'es' ? 'en' : 'es'} href={absUrl(alternateHref)} />
+    <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/photos/murallas-torre.jpg" as="image" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content={ogLocale} />
@@ -116,5 +122,12 @@ const copy = lang === 'es'
       });
     </script>
     </>}
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>

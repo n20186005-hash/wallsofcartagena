@@ -22,6 +22,9 @@ export type Content = {
   faq: { kicker: string; title: string; items: { q: string; a: string }[] };
   sources: { kicker: string; title: string; text: string; items: { label: string; url: string }[] };
   footer: { nonprofit: string; authorities: string; copyright: string; photo: string; credit: string };
+  seasonal: { kicker: string; title: string; intro: string; rows: { period: string; conditions: string; temp: string; rain: string; crowd: string; bestFor: string }[] };
+  itineraries: { kicker: string; title: string; intro: string; routes: { tag: string; title: string; text: string; steps: string[] }[] };
+  responsibility: { kicker: string; title: string; intro: string; groups: { title: string; icon: string; text: string }[] };
 };
 
 const facts = {
@@ -29,13 +32,13 @@ const facts = {
     { label: 'Ubicación', value: 'San Diego · Cartagena de Indias' },
     { label: 'Coordenadas', value: '10.4296° N, 75.5474° O' },
     { label: 'Conjunto patrimonial', value: 'Patrimonio Mundial UNESCO' },
-    { label: 'Referencia en Maps', value: '4,8/5 · 34.188 opiniones' },
+    { label: 'Referencia en Maps', value: '4,8/5 · 34.235 opiniones' },
   ],
   en: [
     { label: 'Location', value: 'San Diego · Cartagena de Indias' },
     { label: 'Coordinates', value: '10.4296° N, 75.5474° W' },
     { label: 'Heritage setting', value: 'UNESCO World Heritage' },
-    { label: 'Maps reference', value: '4.8/5 · 34,188 reviews' },
+    { label: 'Maps reference', value: '4.8/5 · 34,235 reviews' },
   ],
 };
 
@@ -43,14 +46,16 @@ export const content: Record<Locale, Content> = {
   es: {
     locale: 'es',
     htmlLang: 'es-CO',
-    siteName: 'Guía de las Murallas de Cartagena',
-    title: 'Murallas de Cartagena (Cartagena de Indias) - Guía de Visitante y Ubicación',
-    description: 'Descubre las Murallas de Cartagena, el emblemático monumento en Cartagena de Indias, Bolívar, Colombia. Consulta el mapa de ubicación, detalles de acceso, lugares cercanos como Las Bóvedas y consejos de viaje.',
+    siteName: 'Murallas de Cartagena · Cartagena de Indias — Guía Turística',
+    title: 'Murallas de Cartagena de Indias: cómo llegar, mapa y qué ver',
+    description: 'Guía práctica de las Murallas de Cartagena: cómo llegar, mapa de ubicación, cuánto tiempo reservar y rutas de visita. Patrimonio UNESCO en Cartagena de Indias, Colombia.',
     navigation: [
       { label: 'La muralla', href: '#muralla' },
       { label: 'Historia', href: '#historia' },
       { label: 'Planifica', href: '#planifica' },
       { label: 'Cerca de aquí', href: '#cerca' },
+      { label: 'Temporada', href: '#temporada' },
+      { label: 'Rutas', href: '#rutas' },
       { label: 'Preguntas', href: '#preguntas' },
     ],
     utility: [
@@ -117,6 +122,11 @@ export const content: Record<Locale, Content> = {
         { title: 'Estacionamiento', icon: 'P', text: 'La muralla está dentro de un entorno histórico con calles estrechas y capacidad limitada. No hay estacionamiento público propio de este tramo; utiliza espacios regulados o privados fuera de la circulación sensible y termina el recorrido a pie.', list: ['No estaciones junto al muro, accesos de emergencia o zonas no señalizadas.', 'Verifica altura, horario, vigilancia y modalidad de pago del lugar elegido.', 'Considera dejar el vehículo fuera del recinto durante las horas de mayor afluencia.'] },
         { title: 'Servicios esenciales', icon: '+', text: 'Los servicios no se distribuyen de manera uniforme sobre la muralla. Planifica agua, protección solar y descansos antes de iniciar; los baños, comercio, farmacia, alojamiento, supermercado, combustible y recarga se encuentran en el tejido urbano circundante, no como un servicio administrado por el monumento.', list: ['Consulta la ubicación actual de baños y atención médica antes de salir.', 'Lleva agua reutilizable y retira tus residuos.', 'Para combustible o recarga, planifica fuera del núcleo peatonal y evita ingresar con el vehículo solo para buscar servicios.'] },
         { title: 'Entrada, costo y conservación', icon: '$', text: 'La muralla es un espacio patrimonial urbano y las condiciones de acceso pueden variar por tramos, obras, eventos o medidas de seguridad. No publiques ni presupongas una tarifa fija sin confirmarla en la fuente responsable.', list: ['Consulta si hay cierres temporales antes de visitar.', 'No grabes, rayes, desmontes ni alteres piedra, señalización o vegetación.', 'Mantén libres los pasos y cede el paso en escaleras, rampas y superficies estrechas.'] },
+        { title: 'Baños y servicios básicos', icon: '☻', text: 'No hay aseos dentro del recorrido sobre la muralla. Los servicios públicos y de establecimientos (cafeterías, restaurantes, museos) están en el tejido urbano circundante: San Diego, el Centro y la Plaza de la Aduana. Planifica pausas antes de subir al paseo elevado.', list: ['Busca aseos en plazas, museos o establecimientos con atención al público.', 'Lleva contigo lo necesario para cambios de pañales o necesidades específicas.', 'No uses las murallas ni los baluartes como aseo.'] },
+        { title: 'Dónde comer y beber', icon: '☕', text: 'El barrio de San Diego y las calles aledañas reúnen opciones de distinto tamaño y presupuesto. Esta guía no recomienda comercios concretos: prioriza el tipo de experiencia, la higiene visible y un lugar con sombra para reponer energía.', list: ['Cocina caribeña, pescados y mariscos, arroces y frutas locales.', 'Cafeterías y tiendas de agua para hidratarse en el calor.', 'Evita depender de vendedores informales para tus necesidades básicas.'] },
+        { title: 'Alojamiento', icon: '⌂', text: 'Dormir dentro de la ciudad amurallada es cómodo para recorrer todo a pie, pero también hay zonas residenciales y playeras a pocos minutos. Elige según tu presupuesto y movilidad; no promocionamos ningún alojamiento en particular.', list: ['Centro histórico: todo a corta distancia, precios más altos.', 'Bocagrande/Castillogrande: más amplio, cerca del mar.', 'Getsemaní: ambiente local, a pocos minutos del recinto.'] },
+        { title: 'Compras y supermercado', icon: '⌖', text: 'Para provisiones, botella de agua reutilizable o protector solar, usa supermercados y tiendas de barrio fuera del núcleo peatonal. Reducirás coste y envases respecto a comprar sobre la marcha en la muralla.', list: ['Abastécete antes de empezar el paseo.', 'Lleva efectivo y tarjeta; no todo comercio pequeño pasa tarjeta.', 'Prefiere productos locales y evita compras de recuerdo no autorizadas sobre el monumento.'] },
+        { title: 'Combustible y carga', icon: '⚡', text: 'Si arrives en vehículo propio, completa combustible y carga del teléfono antes de acercarte: el entorno es de calles estrechas y tránsito sensible. No hay estación de servicio ni punto de carga dentro del recinto.', list: ['Carga el móvil en tu alojamiento antes de salir.', 'Reposta en estaciones fuera del centro histórico.', 'Lleva batería externa para fotos y mapas offline.'] },
       ],
     },
     food: {
@@ -167,6 +177,41 @@ export const content: Record<Locale, Content> = {
         { label: 'Aeropuerto Internacional Rafael Núñez · Transporte', url: 'https://aeropuertocartagena.com.co/en/transporte/' },
       ],
     },
+    seasonal: {
+      kicker: 'Estrategia por temporada',
+      title: 'Cuándo visitar las Murallas de Cartagena',
+      intro: 'Cartagena tiene clima tropical todo el año (mínimas cerca de 24 °C y máximas de 30–32 °C). La diferencia principal es la lluvia y la afluencia. La tabla resume promedios climáticos de largo plazo (referencia IDEAM) por trimestre; úsalos como guía, no como pronóstico exacto.',
+      rows: [
+        { period: 'Diciembre – febrero', conditions: 'Temporada seca: sol abundante, tardes cálidas y lluvias escasas.', temp: '24–31 °C', rain: 'Baja', crowd: 'Alta (vacaciones y Carnaval)', bestFor: 'Caminar la muralla, fotografía y vida al aire libre.' },
+        { period: 'Marzo – mayo', conditions: 'Transición: marzo aún seco, abril y mayo suman chubascos de tarde.', temp: '25–31 °C', rain: 'Media', crowd: 'Media', bestFor: 'Mañanas despejadas y menos gente que en pleno pico.' },
+        { period: 'Junio – agosto', conditions: 'Temporada lluviosa: tormentas de tarde, calor y humedad altos.', temp: '25–32 °C', rain: 'Alta', crowd: 'Media-baja', bestFor: 'Paseos temprano, museos al mediodía y precios más bajos.' },
+        { period: 'Septiembre – noviembre', conditions: 'Tramo más lluvioso (pico en sep–oct); mar más agitada.', temp: '24–31 °C', rain: 'Alta', crowd: 'Baja', bestFor: 'Viaje económico y cultura local; lleva impermeable.' },
+      ],
+    },
+    itineraries: {
+      kicker: 'Cómo recorrerla',
+      title: 'Rutas sugeridas para las Murallas de Cartagena',
+      intro: 'Estas rutas son independientes y no promueven ningún operador. Ajusta los tiempos a tu ritmo, al calor y a la luz.',
+      routes: [
+        { tag: 'Medio día', title: 'Ruta esencial (3–4 h)', text: 'Un recorrido compacto por el tramo de San Diego y el borde defensivo.', steps: ['Plaza de San Diego → sube a la muralla hacia Las Bóvedas.', 'Baluarte de Santo Domingo: vista y sombra.', 'Baja por el Centro hasta la Torre del Reloj y la Plaza de la Aduana.', 'Pausa en una plaza con sombra antes de volver.'] },
+        { tag: 'Día completo', title: 'Recinto + Castillo (7–8 h)', text: 'Combine el paseo urbano con la defensa terrestre y el barrio de Getsemaní.', steps: ['Mañana: muralla de San Diego y Centro histórico.', 'Mediodía: museo (oro, naval o historia) para escapar del sol.', 'Tarde: Castillo San Felipe de Barajas.', 'Atardecer: Getsemaní y vuelta por la muralla al anochecer.'] },
+        { tag: 'Familiar', title: 'En familia con niños', text: 'Tramos cortos, sombra y pausas; evita el mediodía y los desniveles largos.', steps: ['Inicia en Plaza de San Diego, llano y con juego cercano.', 'Caminata corta por Las Bóvedas con sombra.', 'Helado o agua en la plaza; descanso a mitad.', 'Evita subir rampas largas en las horas de más sol.'] },
+        { tag: 'Foto y naturaleza', title: 'Luz y patrimonio', text: 'Apunta a la hora dorada y al azul para las siluetas de baluartes y garitas.', steps: ['Madrugada o temprano: luz suave sobre el coral.', 'Mediodía: detalles de piedra y vegetación.', 'Hora dorada: baluartes contra el mar.', 'Hora azul: muralla y faroles del Centro.'] },
+        { tag: 'Accesible', title: 'Baja intensidad y movilidad reducida', text: 'Prefiere calles llanas del Centro y evita escaleras y rampas de la muralla.', steps: ['Taxi o vehículo puerta a puerta a Plaza de San Diego.', 'Paseo por calles llanas del Centro histórico.', 'Bancos y sombra cada pocos metros.', 'Evita subir a tramos con desnivel pronunciado.'] },
+      ],
+    },
+    responsibility: {
+      kicker: 'Ciencia y responsabilidad',
+      title: 'Cuidar las Murallas y su entorno',
+      intro: 'Una guía independiente no cambia el lugar, pero sí cómo lo recorres. Estos puntos se basan en buenas prácticas de conservación y convivencia.',
+      groups: [
+        { title: 'Calidad del agua', icon: '≈', text: 'La bahía de Cartagena es un ecosistema vivo. Tras lluvias fuertes, evita el baño cerca de desembocaduras y respeta las señalizaciones locales; la calidad varía con las escorrentías.' },
+        { title: 'Vida silvestre', icon: '❦', text: 'Garzas, pelícanos e iguanas habitan el recinto. No los alimentes ni los toques; obsérvalos a distancia y no introduzcas mascotas en zonas sensibles.' },
+        { title: 'Cero residuos', icon: '♻', text: 'Lleva botella reutilizable y retira lo que traigas. No dejes comida ni envases sobre la muralla; los restos atraen fauna y dañan la piedra.' },
+        { title: 'Sol y seguridad', icon: '☼', text: 'El sol caribeño es intenso. Usa gorra, protector solar y agua; la piedra es irregular, así que calzado firme y paso seguro en rampas y escaleras.' },
+        { title: 'Patrimonio vivo', icon: '✶', text: 'No grabes ni retires piedra, señalización o vegetación. Tu visita ayuda a sostener un sitio que lleva siglos protegiendo la ciudad.' },
+      ],
+    },
     footer: {
       nonprofit: 'Este sitio es una guía independiente y sin ánimo de lucro para visitantes; no está afiliado a ninguna entidad gubernamental, organización oficial ni operador comercial.',
       authorities: 'La información patrimonial se contrasta con materiales públicos de UNESCO, Colombia Travel y el Aeropuerto Internacional Rafael Núñez; no contiene recomendaciones comerciales.',
@@ -178,14 +223,16 @@ export const content: Record<Locale, Content> = {
   en: {
     locale: 'en',
     htmlLang: 'en',
-    siteName: 'Cartagena Walls Guide',
-    title: 'Walls of Cartagena (Cartagena de Indias) - Visitor Guide & Location',
-    description: 'Discover Walls of Cartagena, the iconic landmark in Cartagena de Indias, Bolívar, Colombia. View location map, opening details, nearby Las Bóvedas, and travel tips.',
+    siteName: 'Walls of Cartagena · Cartagena de Indias — Travel Guide',
+    title: 'Walls of Cartagena: how to get there, map & what to see',
+    description: 'Practical guide to Walls of Cartagena: how to get there, location map, suggested timing, routes, and visit tips. UNESCO heritage in Cartagena de Indias, Colombia.',
     navigation: [
       { label: 'The walls', href: '#muralla' },
       { label: 'History', href: '#historia' },
       { label: 'Plan a visit', href: '#planifica' },
       { label: 'Nearby', href: '#cerca' },
+      { label: 'Seasons', href: '#temporada' },
+      { label: 'Routes', href: '#rutas' },
       { label: 'FAQ', href: '#preguntas' },
     ],
     utility: [
@@ -252,6 +299,11 @@ export const content: Record<Locale, Content> = {
         { title: 'Parking', icon: 'P', text: 'The walls sit within a historic setting of narrow streets and limited capacity. There is no public parking dedicated to this section; use regulated or private facilities outside sensitive circulation and finish the journey on foot.', list: ['Do not park beside the wall, emergency access, or unsigned areas.', 'Check height limits, hours, security, and payment terms at the facility you choose.', 'Consider leaving your vehicle outside the enclosure during busier periods.'] },
         { title: 'Essential services', icon: '+', text: 'Services are not evenly distributed along the walls. Plan water, sun protection, and rest stops before you begin; toilets, food, pharmacies, accommodation, groceries, fuel, and charging are found in the surrounding urban fabric, not as a service operated by the monument.', list: ['Check the current location of toilets and medical attention before departure.', 'Carry refillable water and take your waste with you.', 'Plan fuel or charging outside the pedestrian core rather than driving in just to find services.'] },
         { title: 'Access, cost, and conservation', icon: '$', text: 'The wall is an urban heritage space, and access conditions can vary by section, works, events, or safety measures. Do not publish or assume a fixed price without confirmation from the responsible source.', list: ['Check for temporary closures before visiting.', 'Do not carve, remove, or alter stonework, signs, or vegetation.', 'Keep passageways clear and yield on stairs, ramps, and narrow surfaces.'] },
+        { title: 'Toilets and basics', icon: '☻', text: 'There are no toilets along the walk on the wall itself. Public facilities and those of cafés, restaurants, and museums sit in the surrounding urban fabric: San Diego, the Centro, and Plaza de la Aduana. Plan breaks before climbing to the upper walkway.', list: ['Look for toilets in plazas, museums, or public-facing businesses.', 'Carry what you need for nappy changes or specific needs.', 'Do not use the wall or bastions as a toilet.'] },
+        { title: 'Food and drink', icon: '☕', text: 'San Diego and the nearby streets gather options of different sizes and budgets. This guide recommends no specific business: prioritise the type of experience, visible hygiene, and a shaded spot to recover energy.', list: ['Caribbean cooking, fish and seafood, rice dishes, and local fruit.', 'Cafés and water shops to stay hydrated in the heat.', 'Avoid relying on informal vendors for basic needs.'] },
+        { title: 'Accommodation', icon: '⌂', text: 'Staying inside the walled city is convenient for walking everywhere, but residential and beach areas are a few minutes away. Choose by budget and mobility; we promote no particular lodging.', list: ['Historic centre: everything close, higher prices.', 'Bocagrande/Castillogrande: larger, near the sea.', 'Getsemaní: local feel, minutes from the enclosure.'] },
+        { title: 'Shops and supermarkets', icon: '⌖', text: 'For supplies, a refillable water bottle, or sunscreen, use supermarkets and neighbourhood shops outside the pedestrian core. You will spend less and use fewer packages than buying on the run on the wall.', list: ['Stock up before starting the walk.', 'Carry cash and card; not every small shop takes cards.', 'Prefer local products and avoid unauthorised souvenir sellers on the monument.'] },
+        { title: 'Fuel and charging', icon: '⚡', text: 'If you arrive by car, fill up fuel and charge your phone before getting close: the setting has narrow streets and sensitive traffic. There is no petrol station or charging point inside the enclosure.', list: ['Charge your phone at your lodging before leaving.', 'Refuel at stations outside the historic centre.', 'Carry a power bank for photos and offline maps.'] },
       ],
     },
     food: {
@@ -300,6 +352,41 @@ export const content: Record<Locale, Content> = {
         { label: 'UNESCO · Port, Fortresses and Group of Monuments, Cartagena', url: 'https://whc.unesco.org/en/list/285/' },
         { label: 'Colombia Travel · The Walls of Cartagena', url: 'https://colombia.travel/en/cartagena-de-indias-colombia/walls-cartagena' },
         { label: 'Rafael Núñez International Airport · Transport', url: 'https://aeropuertocartagena.com.co/en/transporte/' },
+      ],
+    },
+    seasonal: {
+      kicker: 'Seasonal strategy',
+      title: 'When to visit the Walls of Cartagena',
+      intro: 'Cartagena is tropical year-round (lows near 24 °C, highs 30–32 °C). The main difference is rainfall and crowds. The table summarises long-term climate norms (IDEAM reference) by quarter; treat them as guidance, not an exact forecast.',
+      rows: [
+        { period: 'December – February', conditions: 'Dry season: plenty of sun, warm afternoons, little rain.', temp: '24–31 °C', rain: 'Low', crowd: 'High (holidays and Carnival)', bestFor: 'Walking the wall, photography, and outdoor life.' },
+        { period: 'March – May', conditions: 'Transition: March still dry, April and May add afternoon showers.', temp: '25–31 °C', rain: 'Medium', crowd: 'Medium', bestFor: 'Clear mornings and fewer people than peak season.' },
+        { period: 'June – August', conditions: 'Rainy season: afternoon storms, high heat and humidity.', temp: '25–32 °C', rain: 'High', crowd: 'Medium-low', bestFor: 'Early walks, midday museums, and lower prices.' },
+        { period: 'September – November', conditions: 'Wettest stretch (peak Sep–Oct); sea a bit rougher.', temp: '24–31 °C', rain: 'High', crowd: 'Low', bestFor: 'Budget travel and local culture; bring rain gear.' },
+      ],
+    },
+    itineraries: {
+      kicker: 'How to walk it',
+      title: 'Suggested routes for the Walls of Cartagena',
+      intro: 'These routes are independent and promote no operator. Adjust the timing to your pace, the heat, and the light.',
+      routes: [
+        { tag: 'Half day', title: 'Essential route (3–4 h)', text: 'A compact walk through the San Diego stretch and the defensive edge.', steps: ['Plaza de San Diego → climb the wall toward Las Bóvedas.', 'Baluarte de Santo Domingo: view and shade.', 'Descend through the Centro to Torre del Reloj and Plaza de la Aduana.', 'Pause in a shaded plaza before heading back.'] },
+        { tag: 'Full day', title: 'Enclosure + Castle (7–8 h)', text: 'Pair the urban walk with the land defence and the Getsemaní neighbourhood.', steps: ['Morning: San Diego wall and historic centre.', 'Midday: a museum (gold, naval, or history) to escape the sun.', 'Afternoon: Castillo San Felipe de Barajas.', 'Sunset: Getsemaní and back along the wall at dusk.'] },
+        { tag: 'Family', title: 'With children', text: 'Short stretches, shade, and breaks; avoid midday and long slopes.', steps: ['Start at Plaza de San Diego, flat with nearby play.', 'Short walk along Las Bóvedas in the shade.', 'Ice cream or water in the plaza; rest halfway.', 'Avoid long ramps during the hottest hours.'] },
+        { tag: 'Photo & nature', title: 'Light and heritage', text: 'Aim for golden and blue hour for the silhouettes of bastions and sentry boxes.', steps: ['Dawn or early: soft light on the coral stone.', 'Midday: stone and vegetation details.', 'Golden hour: bastions against the sea.', 'Blue hour: wall and Centro lanterns.'] },
+        { tag: 'Accessible', title: 'Low effort, reduced mobility', text: 'Prefer flat Centro streets and avoid the wall stairs and ramps.', steps: ['Taxi or door-to-door to Plaza de San Diego.', 'Walk the flat streets of the historic centre.', 'Benches and shade every few metres.', 'Avoid sections with steep changes in level.'] },
+      ],
+    },
+    responsibility: {
+      kicker: 'Science and responsibility',
+      title: 'Caring for the Walls and their setting',
+      intro: 'An independent guide does not change the place, but it changes how you walk it. These points follow conservation and coexistence good practice.',
+      groups: [
+        { title: 'Water quality', icon: '≈', text: 'Cartagena bay is a living ecosystem. After heavy rain, avoid swimming near outlets and respect local signage; quality shifts with runoff.' },
+        { title: 'Wildlife', icon: '❦', text: 'Herons, pelicans, and iguanas live in the enclosure. Do not feed or touch them; observe from a distance and keep pets out of sensitive areas.' },
+        { title: 'Zero waste', icon: '♻', text: 'Bring a refillable bottle and take away what you bring. Leave no food or packaging on the wall; scraps attract wildlife and damage the stone.' },
+        { title: 'Sun and safety', icon: '☼', text: 'The Caribbean sun is strong. Wear a hat, sunscreen, and water; the stone is uneven, so wear firm shoes and step carefully on ramps and stairs.' },
+        { title: 'Living heritage', icon: '✶', text: 'Do not carve or remove stone, signs, or vegetation. Your visit helps sustain a site that has protected the city for centuries.' },
       ],
     },
     footer: {
