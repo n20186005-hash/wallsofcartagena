@@ -58,12 +58,14 @@ const copy = lang === 'es'
       <div class="weather-forecast" data-forecast></div>
       <div class="weather-advice" data-advice></div>
     </div>
+    <p>{lang === 'es' ? 'Pronóstico: Open-Meteo. No es un aviso oficial de apertura o seguridad.' : 'Forecast: Open-Meteo. This is not an official opening or safety notice.'}</p>
+    <noscript>{copy.error}</noscript>
     <p class="weather-error" data-error hidden>{copy.error}</p>
   </div>
 </section>
 
 <script>
-  import { wmo, uvLabel, weekdayLabel, buildAdvice } from '../lib/weather';
+  import { wmo, uvLabel, weekdayLabel, buildAdvice, validWeather } from '../lib/weather';
 
   const root = document.querySelector<HTMLElement>('[data-weather]');
   if (root) {
@@ -83,7 +85,7 @@ const copy = lang === 'es'
     const currentEl = root.querySelector<HTMLElement>('[data-current]');
     const forecastEl = root.querySelector<HTMLElement>('[data-forecast]');
     const adviceEl = root.querySelector<HTMLElement>('[data-advice]');
-    const errorEl = root.querySelector<HTMLElement>('[data-error]');
+    const errorEl = root.closest('section')?.querySelector<HTMLElement>('[data-error]');
 
     const num = (v: unknown, d = 0) => (typeof v === 'number' && !Number.isNaN(v)) ? v.toFixed(d) : '–';
 
@@ -144,10 +146,12 @@ const copy = lang === 'es'
         const res = await fetch(`/api/weather?lang=${lang}`, { headers: { accept: 'application/json' } });
         if (!res.ok) throw new Error('http');
         const data = await res.json();
-        if (data && data.error) throw new Error('data');
+        if (!validWeather(data)) throw new Error('data');
         render(data);
       } catch {
         if (errorEl) errorEl.hidden = false;
+        if (forecastEl) forecastEl.textContent = '';
+        if (adviceEl) adviceEl.textContent = '';
         if (currentEl) currentEl.textContent = i18n.noData;
       }
     }

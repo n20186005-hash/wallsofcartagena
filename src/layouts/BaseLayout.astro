@@ -4,7 +4,7 @@ import '../styles/global.css';
 interface Props {
   lang: 'es' | 'en';
   htmlLang: string;
-  siteName: string;
+  siteName?: string;
   title: string;
   description: string;
   alternateHref: string;
@@ -13,10 +13,10 @@ interface Props {
   showConsent?: boolean;
 }
 
-const { lang, htmlLang, siteName, title, description, alternateHref, alternateLang, pagePath = Astro.url.pathname, showConsent = !['/privacidad/', '/terminos/', '/cookies/', '/en/privacy/', '/en/terms/', '/en/cookies/'].includes(Astro.url.pathname) } = Astro.props;
+const { lang, htmlLang, siteName = 'Cartagena Walls Visitor Guide', title, description, alternateHref, pagePath = Astro.url.pathname, showConsent = !['/privacidad/', '/terminos/', '/cookies/', '/en/privacy/', '/en/terms/', '/en/cookies/'].includes(Astro.url.pathname) } = Astro.props;
 const canonical = Astro.site ? new URL(pagePath, Astro.site).href : pagePath;
 const absUrl = (p: string) => (Astro.site ? new URL(p, Astro.site).href : p);
-const xDefaultHref = absUrl('/');
+const xDefaultHref = absUrl(lang === 'es' ? pagePath : alternateHref);
 const socialImage = Astro.site ? new URL('/photos/murallas-torre.jpg', Astro.site).href : undefined;
 const ogLocale = lang === 'es' ? 'es_CO' : 'en_US';
 const homeHref = lang === 'es' ? '/' : '/en/';
@@ -24,8 +24,8 @@ const cookieHref = lang === 'es' ? '/cookies/' : '/en/cookies/';
 const privacyHref = lang === 'es' ? '/privacidad/' : '/en/privacy/';
 const termsHref = lang === 'es' ? '/terminos/' : '/en/terms/';
 const copy = lang === 'es'
-  ? { consent: 'Privacidad', notice: 'Usamos preferencias locales y, con tu permiso, medición anónima para mejorar esta guía.', accept: 'Aceptar analíticas', decline: 'Solo necesarias', configure: 'Ver configuración' }
-  : { consent: 'Privacy', notice: 'We use local preferences and, with your permission, anonymous measurement to improve this guide.', accept: 'Accept analytics', decline: 'Necessary only', configure: 'View settings' };
+  ? { consent: 'Privacidad', notice: 'Usamos preferencias locales y, con tu permiso, Google Analytics para mejorar esta guía.', accept: 'Aceptar analíticas', decline: 'Solo necesarias', configure: 'Ver configuración' }
+  : { consent: 'Privacy', notice: 'We use local preferences and, with your permission, Google Analytics to improve this guide.', accept: 'Accept analytics', decline: 'Necessary only', configure: 'View settings' };
 ---
 
 <!doctype html>
@@ -36,8 +36,8 @@ const copy = lang === 'es'
     <meta name="theme-color" content="#073b4c" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang={lang} href={absUrl(pagePath)} />
-    <link rel="alternate" hreflang={lang === 'es' ? 'en' : 'es'} href={absUrl(alternateHref)} />
+    <link rel="alternate" hreflang={lang === 'es' ? 'es-CO' : 'en'} href={absUrl(pagePath)} />
+    <link rel="alternate" hreflang={lang === 'es' ? 'en' : 'es-CO'} href={absUrl(alternateHref)} />
     <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
@@ -73,11 +73,11 @@ const copy = lang === 'es'
           <a href={termsHref}>{lang === 'es' ? 'Términos' : 'Terms'}</a>
           <a href={cookieHref}>{lang === 'es' ? 'Cookies' : 'Cookies'}</a>
         </div>
-        <p class="footer-provenance">{lang === 'es' ? 'Fuentes públicas contrastadas: UNESCO, Colombia Travel y Aeropuerto Internacional Rafael Núñez.' : 'Public sources checked: UNESCO, Colombia Travel, and Rafael Núñez International Airport.'}</p>
+        <p class="footer-provenance">{lang === 'es' ? 'Fuentes públicas contrastadas: UNESCO y Fortificaciones Cartagena de Indias.' : 'Public sources checked: UNESCO and Fortificaciones Cartagena de Indias.'}</p>
       </div>
       <div class="footer-rule shell"></div>
       <div class="footer-bottom shell">
-        <p>{lang === 'es' ? 'Guía independiente y sin ánimo de lucro. No es un sitio oficial.' : 'An independent, not-for-profit guide. Not an official website.'}</p>
+        <p>{lang === 'es' ? 'Guía independiente de visitantes. No es un sitio oficial.' : 'Independent visitor guide. Not an official website.'}</p>
         <p>{lang === 'es' ? '© 2026 Guía de las Murallas de Cartagena' : '© 2026 Cartagena Walls Guide'}</p>
       </div>
     </footer>
@@ -93,35 +93,21 @@ const copy = lang === 'es'
         <button class="button" data-consent="analytics">{copy.accept}</button>
       </div>
     </aside>
-    <script is:inline>
-      const consentKey = 'murallas-cookie-consent';
-      const addAnalytics = () => {
-        if (window.__murallasAnalyticsLoaded) return;
-        window.__murallasAnalyticsLoaded = true;
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP';
-        document.head.appendChild(script);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-HXM22WWPKP', { anonymize_ip: true });
-      };
-      const currentConsent = localStorage.getItem(consentKey);
-      if (currentConsent === 'analytics') addAnalytics();
-      const banner = document.querySelector('[data-consent-banner]');
-      if (!currentConsent && banner) banner.hidden = false;
-      document.querySelectorAll('[data-consent]').forEach((button) => {
-        button.addEventListener('click', () => {
-          const value = button.dataset.consent;
-          localStorage.setItem(consentKey, value);
-          if (value === 'analytics') addAnalytics();
-          if (banner) banner.hidden = true;
-          window.dispatchEvent(new CustomEvent('murallas-consent-change', { detail: value }));
-        });
-      });
-    </script>
     </>}
+    <script is:inline src="/analytics.js"></script>
+    <script is:inline>
+      const banner = document.querySelector('[data-consent-banner]');
+      let hasChoice = false;
+      try { hasChoice = ['analytics', 'necessary'].includes(localStorage.getItem('murallas-cookie-consent')); } catch {}
+      if (banner) banner.hidden = hasChoice;
+      document.querySelectorAll('[data-consent]').forEach(button => button.addEventListener('click', () => {
+        const result = window.wallsAnalytics.set(button.dataset.consent === 'analytics');
+        if (banner) banner.hidden = result.saved;
+        let status = document.querySelector('[data-consent-status]');
+        if (!status && banner) { status = document.createElement('p'); status.dataset.consentStatus = ''; status.setAttribute('role', 'status'); banner.appendChild(status); }
+        if (status) status.textContent = result.saved ? '' : (document.documentElement.lang.startsWith('es') ? 'No se pudo guardar. Analytics está desactivado aquí. Revisa Configuración de cookies.' : 'Could not save. Analytics is off here. Check Cookie settings.');
+      }));
+    </script>
     <script is:inline>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

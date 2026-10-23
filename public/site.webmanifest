@@ -1,7 +1,7 @@
 {
   "name": "Guía de las Murallas de Cartagena",
   "short_name": "Murallas",
-  "description": "Guía independiente y sin ánimo de lucro sobre las Murallas de Cartagena, Patrimonio Mundial de la UNESCO en Cartagena de Indias, Colombia.",
+  "description": "Guía independiente de visitantes sobre las Murallas de Cartagena, Patrimonio Mundial de la UNESCO en Cartagena de Indias, Colombia.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

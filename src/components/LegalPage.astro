@@ -12,8 +12,8 @@ interface Props {
 const { lang, kind, title, lead, sections } = Astro.props;
 const homeHref = lang === 'es' ? '/' : '/en/';
 const cookieCopy = lang === 'es'
-  ? { essential: 'Necesarias', analytics: 'Medición anónima', description: 'La medición solo se carga cuando eliges esta opción.', save: 'Guardar preferencias', saved: 'Preferencias guardadas.' }
-  : { essential: 'Necessary', analytics: 'Anonymous measurement', description: 'Measurement loads only when you choose this option.', save: 'Save preferences', saved: 'Preferences saved.' };
+  ? { essential: 'Necesarias', analytics: 'Google Analytics', description: 'La medición solo se carga cuando eliges esta opción.', save: 'Guardar preferencias', saved: 'Preferencias guardadas.' }
+  : { essential: 'Necessary', analytics: 'Google Analytics', description: 'Measurement loads only when you choose this option.', save: 'Save preferences', saved: 'Preferences saved.' };
 ---
 
 <main class="legal-page" id="contenido">
@@ -29,7 +29,7 @@ const cookieCopy = lang === 'es'
       <p class="eyebrow">{lang === 'es' ? 'Información del sitio' : 'Website information'}</p>
       <h1>{title}</h1>
       <p>{lead}</p>
-      <p class="last-updated">{lang === 'es' ? 'Última actualización: agosto de 2026' : 'Last updated: August 2026'}</p>
+      <p class="last-updated">{lang === 'es' ? 'Última actualización: 22 de octubre de 2026' : 'Last updated: 22 October 2026'}</p>
     </div>
   </section>
   <article class="legal-content shell">
@@ -44,7 +44,7 @@ const cookieCopy = lang === 'es'
         <h2 id="preference-title">{lang === 'es' ? 'Tus preferencias' : 'Your preferences'}</h2>
         <form data-preference-form>
           <label class="preference-option">
-            <span><span class="text-emphasis">{cookieCopy.essential}</span><small>{lang === 'es' ? 'Siempre activas para recordar tu decisión.' : 'Always active to remember your choice.'}</small></span>
+            <span><span class="text-emphasis">{cookieCopy.essential}</span><small>{lang === 'es' ? 'Almacenamiento local, si el navegador lo permite.' : 'Local storage, if the browser permits it.'}</small></span>
             <input type="checkbox" checked disabled aria-label={cookieCopy.essential} />
           </label>
           <label class="preference-option">
@@ -59,18 +59,22 @@ const cookieCopy = lang === 'es'
   </article>
 </main>
 
-{kind === 'cookies' && <script is:inline define:vars={{ saved: cookieCopy.saved }}>
-  const key = 'murallas-cookie-consent';
-  const toggle = document.querySelector('[data-analytics-toggle]');
-  const form = document.querySelector('[data-preference-form]');
-  const status = document.querySelector('[data-preference-status]');
-  if (toggle) toggle.checked = localStorage.getItem(key) === 'analytics';
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const value = toggle?.checked ? 'analytics' : 'necessary';
-    localStorage.setItem(key, value);
-    if (status) status.textContent = saved;
-    window.dispatchEvent(new CustomEvent('murallas-consent-change', { detail: value }));
-    if (value === 'analytics') window.location.reload();
+{kind === 'cookies' && <script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('[data-analytics-toggle]');
+    const form = document.querySelector('[data-preference-form]');
+    const status = document.querySelector('[data-preference-status]');
+    const es = document.documentElement.lang.startsWith('es');
+    toggle.checked = window.wallsAnalytics.get();
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const result = window.wallsAnalytics.set(toggle.checked);
+      toggle.checked = result.effective;
+      status.textContent = result.saved
+        ? (es ? 'Preferencia guardada. Analytics ' + (result.effective ? 'activado.' : 'desactivado.') : 'Preference saved. Analytics ' + (result.effective ? 'enabled.' : 'disabled.'))
+        : (es ? 'No se pudo guardar la opción. Analytics está desactivado en esta página. ' : 'The choice could not be saved. Analytics is off on this page. ') + (result.sharedOff
+          ? (es ? 'Se confirmó que no queda permiso guardado; puedes volver a intentarlo.' : 'No saved permission remains; you can try again.')
+          : (es ? 'Puede quedar permiso guardado, incluso de este intento, utilizable en otras pestañas o al recargar.' : 'Saved permission may remain, including from this attempt, usable in other tabs or after reload.'));
+    });
   });
 </script>}

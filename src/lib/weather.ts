@@ -4,8 +4,8 @@
 
 export type Lang = 'es' | 'en';
 
-export const WALL_LAT = 10.4296;
-export const WALL_LON = -75.5474;
+export const WALL_LAT = 10.4296098;
+export const WALL_LON = -75.544865;
 
 export interface OpenMeteoResponse {
   current: {
@@ -126,9 +126,9 @@ function beaufort(kmh: number): number {
 
 const COPY = {
   es: {
-    lightning: 'Tormenta eléctrica: no subas al paseo elevado ni te refugies bajo árboles; las actividades en el agua suelen cerrar.',
-    waterClosed: 'Con tormenta, botes y paseos acuáticos probablemente no operan: prioriza museos y zonas cubiertas.',
-    heavyRain: 'Lluvia fuerte: evita vaguadas y zonas bajas; el paseo elevado y las embarcaciones pueden cerrar. Mejor impermeable que paraguas largo (viento).',
+    lightning: 'Tormenta eléctrica: aplaza el paseo elevado, busca refugio seguro y consulta avisos locales.',
+    waterClosed: 'Con tormenta, evita zonas expuestas y consulta al operador antes de cualquier actividad acuática.',
+    heavyRain: 'Lluvia fuerte: evita zonas bajas y piedra resbaladiza; consulta avisos antes de subir. Lleva impermeable.',
     indoor: 'Lluvia moderada: prioriza recintos cubiertos (museos, portales) y acorta el tramo al aire libre.',
     lightRain: 'Lluvia ligera: la piedra se vuelve resbaladiza, pisa con cuidado; los miradores se aprecian menos.',
     foldUmbrella: 'Paraguas plegable o impermeable ligero.',
@@ -141,8 +141,8 @@ const COPY = {
     cold: 'Frío notable: abrigo grueso y bufanda.',
     mild: 'Temperaturas suaves: con ropa ligera basta; una capa extra por si refresca.',
     lightClothes: 'Ropa clara y transpirable.',
-    windHigh: 'Viento fuerte (7+): aléjate de balaustres expuestos, carteles y arrecifes; las actividades en el mar suelen cerrar.',
-    wind56: 'Viento moderado a fuerte (5–6): las embarcaciones costeras pueden suspenderse; sujeta sombreros y papeles en la muralla.',
+    windHigh: 'Viento fuerte (7+): evita bordes expuestos y objetos sueltos; consulta avisos locales y al operador de cualquier actividad.',
+    wind56: 'Viento moderado a fuerte (5–6): sujeta sombreros y evita bordes expuestos; consulta condiciones con el operador si vas al mar.',
     sunny: 'Día despejado: ideal para el paseo al aire libre y para ver amaneceres y atardeceres desde los baluartes.',
     cloudy: 'Cielo nublado: luz suave, muy buena para fotos y para caminar sin sol intenso.',
     fog: 'Niebla: baja la visibilidad y la piedra está húmeda; camina con precaución y evita los bordes cerca del mar.',
@@ -151,9 +151,9 @@ const COPY = {
     shoes: 'Calzado firme para la piedra irregular.',
   },
   en: {
-    lightning: 'Thunderstorm: avoid the upper walkway and sheltering under trees; water activities usually close.',
-    waterClosed: 'In a storm, boats and water tours likely stop: prioritise museums and covered areas.',
-    heavyRain: 'Heavy rain: avoid low ground; the wall walk and boats may close. A raincoat beats a long umbrella in the wind.',
+    lightning: 'Thunderstorm: postpone elevated walking, seek safe shelter and check local notices.',
+    waterClosed: 'In a storm, avoid exposed areas and check with the operator before any water activity.',
+    heavyRain: 'Heavy rain: avoid low ground and slippery stone; check notices before going up. Bring a raincoat.',
     indoor: 'Moderate rain: prefer covered spaces (museums, arcades) and shorten the open-air stretch.',
     lightRain: 'Light rain: the stone gets slippery, step carefully; viewpoints are less enjoyable.',
     foldUmbrella: 'Packable umbrella or light rain shell.',
@@ -166,8 +166,8 @@ const COPY = {
     cold: 'Noticeably cold: warm coat and scarf.',
     mild: 'Mild temperatures: light clothing is enough; an extra layer if it cools.',
     lightClothes: 'Light, breathable clothing.',
-    windHigh: 'Strong wind (7+): keep away from exposed bastions, signs, and reefs; sea activities often close.',
-    wind56: 'Moderate to strong wind (5–6): coastal boats may pause; hold hats and papers on the wall.',
+    windHigh: 'Strong wind (7+): avoid exposed edges and loose objects; check local notices and your activity operator.',
+    wind56: 'Moderate to strong wind (5–6): secure hats and avoid exposed edges; ask your operator about conditions before going to sea.',
     sunny: 'Clear day: great for the open-air walk and for sunrise or sunset from the bastions.',
     cloudy: 'Overcast: soft light, ideal for photos and long walks without harsh sun.',
     fog: 'Fog: visibility drops and stone is damp; walk carefully and avoid edges near the sea.',
@@ -245,4 +245,14 @@ export function buildAdvice(data: OpenMeteoResponse, lang: Lang): Advice {
   items.push(c.shoes);
 
   return { alert, risk, outfit, plan, items };
+}
+
+export function validWeather(value: unknown): value is OpenMeteoResponse {
+  if (!value || typeof value !== 'object') return false;
+  const data = value as OpenMeteoResponse;
+  if (!data.current || !data.daily) return false;
+  const finite = (n: unknown) => typeof n === 'number' && Number.isFinite(n);
+  if (!['temperature_2m','apparent_temperature','relative_humidity_2m','precipitation','weather_code','wind_speed_10m','is_day'].every(k => finite((data.current as unknown as Record<string, unknown>)[k]))) return false;
+  const d = data.daily;
+  return Array.isArray(d.time) && d.time.length === 7 && d.time.every(t => /^\d{4}-\d{2}-\d{2}$/.test(t)) && ['weather_code','temperature_2m_max','temperature_2m_min','precipitation_probability_max','wind_speed_10m_max','uv_index_max'].every(k => { const a = (d as unknown as Record<string, unknown>)[k]; return Array.isArray(a) && a.length === 7 && a.every(finite); });
 }

@@ -372,3 +372,8 @@ p { color: var(--ink-muted); }
   .weather-advice { grid-template-columns: 1fr; }
   .seasonal-table { font-size: 13px; }
 }
+
+.hero-credit { position: relative; z-index: 1; margin: 0; padding: 12px max(20px, calc((100% - 1160px) / 2)); background: #073b4c; color: #fff; font-size: 12px; line-height: 1.7; }
+.hero-credit a, .photo-caption a { text-decoration: underline; }
+.hero-content { padding-bottom: 95px; }
+.weather-grid[hidden], .weather-error[hidden] { display: none; }
