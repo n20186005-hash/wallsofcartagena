@@ -39,6 +39,15 @@ const cookieCopy = lang === 'es'
         {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
       </section>
     ))}
+    {(kind === 'privacy' || kind === 'cookies') && (
+      <section>
+        <h2>Cloudflare Web Analytics (RUM)</h2>
+        <p>{lang === 'es'
+          ? 'El alojamiento incorpora un beacon de rendimiento de Cloudflare, separado de Google Analytics. La elección analítica de esta guía controla su integración de Google Analytics, no el beacon del alojamiento. La presencia del script no confirma que se hayan enviado métricas durante una visita concreta.'
+          : 'The hosting service includes a Cloudflare performance beacon, separate from Google Analytics. This guide’s analytics choice controls its Google Analytics integration, not the hosting beacon. The presence of the script does not confirm that metrics were sent during a particular visit.'}</p>
+        <p><a href="https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/">{lang === 'es' ? 'Documentación de Cloudflare sobre la recopilación de datos' : 'Cloudflare documentation on data collection'}</a></p>
+      </section>
+    )}
     {kind === 'cookies' && (
       <section class="preference-panel" aria-labelledby="preference-title">
         <h2 id="preference-title">{lang === 'es' ? 'Tus preferencias' : 'Your preferences'}</h2>
