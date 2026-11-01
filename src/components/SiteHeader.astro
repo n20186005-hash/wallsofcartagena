@@ -1,0 +1,41 @@
+---
+interface Props {
+  lang: 'es' | 'en';
+  homeHref: string;
+  nav: { href: string; label: string }[];
+  language: { href: string; label: string; short: string };
+}
+const { lang, homeHref, nav, language } = Astro.props;
+const brandLabel = lang === 'es' ? 'Murallas de Cartagena' : 'Cartagena Walls';
+const brandSub = lang === 'es' ? 'Cartagena de Indias' : 'Walls guide';
+const navLabel = lang === 'es' ? 'Navegación principal' : 'Main navigation';
+const mobileLabel = lang === 'es' ? 'Abrir menú' : 'Open menu';
+const homeAria = lang === 'es' ? 'Inicio de Guía de las Murallas de Cartagena' : 'Cartagena Walls Guide home';
+---
+<header class="site-header" data-site-header>
+  <div class="shell header-inner">
+    <a class="brand" href={homeHref} aria-label={homeAria}>
+      <img src="/mark.svg" width="46" height="46" alt="" />
+      <span><span class="text-emphasis">{brandLabel}</span><small>{brandSub}</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label={navLabel}>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <a class="language-link" href={language.href} lang={lang === 'es' ? 'en' : 'es'}>
+      <span aria-hidden="true">◎</span> {language.short}
+    </a>
+    <details class="mobile-menu">
+      <summary aria-label={mobileLabel}><span></span><span></span><span></span></summary>
+      <nav aria-label={mobileLabel}>
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={language.href} lang={lang === 'es' ? 'en' : 'es'}>{language.label}</a>
+      </nav>
+    </details>
+  </div>
+</header>
+<script is:inline>
+  const header = document.querySelector('[data-site-header]');
+  const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 32);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+</script>

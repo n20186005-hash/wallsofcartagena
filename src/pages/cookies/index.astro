@@ -7,6 +7,6 @@ const page = content.es;
 const legal = legalContent.es.cookies;
 ---
 
-<BaseLayout lang="es" htmlLang="es-CO" title={`${legal.title} | ${page.siteName}`} description={legal.lead} alternateHref="/en/cookies/" alternateLang="en">
+<BaseLayout lang="es" htmlLang="es-CO" siteName={page.siteName} title={`${legal.title} | ${page.siteName}`} description={legal.lead} alternateHref="/en/cookies/" alternateLang="en">
   <LegalPage lang="es" kind="cookies" {...legal} />
 </BaseLayout>

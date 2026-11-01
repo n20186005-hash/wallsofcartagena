@@ -7,6 +7,6 @@ const page = content.es;
 const legal = legalContent.es.terms;
 ---
 
-<BaseLayout lang="es" htmlLang="es-CO" title={`${legal.title} | ${page.siteName}`} description={legal.lead} alternateHref="/en/terms/" alternateLang="en">
+<BaseLayout lang="es" htmlLang="es-CO" siteName={page.siteName} title={`${legal.title} | ${page.siteName}`} description={legal.lead} alternateHref="/en/terms/" alternateLang="en">
   <LegalPage lang="es" kind="terms" {...legal} />
 </BaseLayout>

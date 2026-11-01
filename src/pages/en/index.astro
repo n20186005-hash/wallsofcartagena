@@ -1,6 +1,7 @@
 ---
 import AttractionPage from '../../components/AttractionPage.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopicCluster from '../../components/TopicCluster.astro';
 import { content } from '../../data/site-data';
 
 const page = content.en;
@@ -16,4 +17,5 @@ const page = content.en;
   alternateLang="es-CO"
 >
   <AttractionPage content={page} />
+  <TopicCluster lang={page.locale} />
 </BaseLayout>

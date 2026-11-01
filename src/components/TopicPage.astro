@@ -1,0 +1,190 @@
+---
+import SiteHeader from './SiteHeader.astro';
+import { getTopic, GROUP_LABELS, SHARED_SOURCES, SHARED_SOURCES_EN, type Topic } from '../data/topics';
+
+interface Props {
+  topic: Topic;
+  lang: 'es' | 'en';
+}
+const { topic, lang } = Astro.props;
+const t = (es: string, en: string) => (lang === 'es' ? es : en);
+const content = topic[lang];
+const contentSources = lang === 'es' ? SHARED_SOURCES : SHARED_SOURCES_EN;
+const homeHref = lang === 'es' ? '/' : '/en/';
+const langPrefix = lang === 'es' ? '' : 'en/';
+const siteName = lang === 'es' ? 'Guía de las Murallas de Cartagena' : 'Cartagena Walls Guide';
+const groupLabel = GROUP_LABELS[topic.group][lang];
+
+const nav = (lang === 'es'
+  ? [
+      { href: '/#muralla', label: 'La muralla' },
+      { href: '/#historia', label: 'Historia' },
+      { href: '/#planifica', label: 'Planifica' },
+      { href: '/#cerca', label: 'Cerca' },
+      { href: '/#temporada', label: 'Temporada' },
+      { href: '/#rutas', label: 'Rutas' },
+      { href: '/#preguntas', label: 'Preguntas' },
+    ]
+  : [
+      { href: '/en/#muralla', label: 'The wall' },
+      { href: '/en/#historia', label: 'History' },
+      { href: '/en/#planifica', label: 'Plan' },
+      { href: '/en/#cerca', label: 'Nearby' },
+      { href: '/en/#temporada', label: 'Seasons' },
+      { href: '/en/#rutas', label: 'Routes' },
+      { href: '/en/#preguntas', label: 'Questions' },
+    ]
+);
+
+const language = {
+  href: `/${langPrefix === '' ? 'en/' : ''}${topic.id}/`,
+  label: t('English', 'Español'),
+  short: t('EN', 'ES'),
+};
+
+const relatedTopics = topic.related
+  .map((id) => getTopic(id))
+  .filter((x): x is Topic => Boolean(x))
+  .map((rt) => ({
+    href: `/${langPrefix}${rt.id}/`,
+    kicker: GROUP_LABELS[rt.group][lang],
+    title: rt[lang].metaTitle,
+    lead: rt[lang].lead,
+  }));
+
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+const siteUrl = Astro.site ? Astro.site.href : '/';
+const homeUrl = Astro.site ? new URL(homeHref, Astro.site).href : homeHref;
+const langCode = lang === 'es' ? 'es-CO' : 'en';
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${pageUrl}#webpage`,
+  url: pageUrl,
+  name: content.metaTitle,
+  description: content.metaDescription,
+  inLanguage: langCode,
+  isPartOf: { '@type': 'WebSite', '@id': `${siteUrl}#website`, name: siteName, url: siteUrl },
+};
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: t('Inicio', 'Home'), item: homeUrl },
+    { '@type': 'ListItem', position: 2, name: groupLabel, item: homeUrl },
+    { '@type': 'ListItem', position: 3, name: content.metaTitle, item: pageUrl },
+  ],
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: content.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<SiteHeader lang={lang} homeHref={homeHref} nav={nav} language={language} />
+
+<main id="contenido">
+  <nav class="breadcrumb" aria-label={t('Ruta de navegación', 'Breadcrumb')}>
+    <ol class="shell">
+      <li><a href={homeHref}>{t('Inicio', 'Home')}</a></li>
+      <li><span aria-hidden="true">/</span> {groupLabel}</li>
+      <li aria-current="page">{content.metaTitle}</li>
+    </ol>
+  </nav>
+
+  <header class="topic-hero">
+    <div class="shell">
+      <p class="eyebrow">{content.kicker}</p>
+      <h1>{content.metaTitle}</h1>
+      <p class="topic-lead">{content.lead}</p>
+      <p class="topic-updated">{t('Actualizado', 'Updated')}: {content.updated}</p>
+    </div>
+    <figure class="topic-hero-photo shell">
+      <img src={content.photo.file} alt={content.photo.alt} loading="lazy" />
+      <figcaption>{content.photo.credit}</figcaption>
+    </figure>
+  </header>
+
+  <div class="topic-body section">
+    <div class="shell topic-layout">
+      <article class="topic-article">
+        {content.sections.map((section) => (
+          <section class="topic-section">
+            <h2>{section.title}</h2>
+            {section.paragraphs?.map((p) => <p>{p}</p>)}
+            {section.bullets && (
+              <ul>
+                {section.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            )}
+            {section.callout && <aside class="topic-callout">{section.callout}</aside>}
+          </section>
+        ))}
+      </article>
+    </div>
+  </div>
+
+  <section class="faq-section section" id="preguntas-frecuentes" aria-labelledby="topic-faq-title">
+    <div class="shell faq-layout">
+      <div class="section-heading">
+        <p class="eyebrow">{t('Preguntas frecuentes', 'Frequently asked questions')}</p>
+        <h2 id="topic-faq-title">{t('Preguntas frecuentes', 'Frequently asked questions')}</h2>
+      </div>
+      <div class="faq-list">
+        {content.faq.map((item, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary>{item.q}<span aria-hidden="true"></span></summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {relatedTopics.length > 0 && (
+    <section class="topic-related section" aria-labelledby="topic-related-title">
+      <div class="shell">
+        <div class="center-heading">
+          <p class="eyebrow">{t('Guías relacionadas', 'Related guides')}</p>
+          <h2 id="topic-related-title">{t('Guías relacionadas', 'Related guides')}</h2>
+        </div>
+        <div class="topic-related-grid">
+          {relatedTopics.map((rt) => (
+            <a class="topic-related-card" href={rt.href}>
+              <span class="topic-related-kicker">{rt.kicker}</span>
+              <h3>{rt.title}</h3>
+              <p>{rt.lead}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="sources-section" aria-labelledby="topic-sources-title">
+    <div class="shell sources-layout">
+      <div>
+        <p class="eyebrow">{t('Fuentes', 'Sources')}</p>
+        <h2 id="topic-sources-title">{t('Fuentes y verificación', 'Sources and verification')}</h2>
+      </div>
+      <div>
+        <p>{t('Esta guía recopila información de fuentes públicas y no es un sitio oficial. Verifica accesos y servicios el día de tu visita.', 'This guide gathers information from public sources and is not an official website. Verify accesses and services on your visit day.')}</p>
+        <ul class="source-list">
+          {contentSources.map((source) => (
+            <li><a href={source.url} target="_blank" rel="noreferrer">{source.label}<span aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(webPageSchema)}></script>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)}></script>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)}></script>

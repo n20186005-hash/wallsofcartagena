@@ -327,7 +327,7 @@ export const content: Record<Locale, Content> = {
           "url": "https://fortificacionescartagena.com.co/es/planee-su-visita/murallas-de-cartagena/"
         },
         {
-          "label": "Google Maps · Walls of Cartagena",
+          "label": "Google Maps · Murallas de Cartagena",
           "url": "https://maps.app.goo.gl/FSZf8ZUWLQLJRJUZ6"
         }
       ]
@@ -742,7 +742,7 @@ export const content: Record<Locale, Content> = {
           "url": "https://whc.unesco.org/en/list/285/"
         },
         {
-          "label": "Fortificaciones Cartagena de Indias · Murallas",
+          "label": "Fortificaciones Cartagena de Indias · Walls",
           "url": "https://fortificacionescartagena.com.co/es/planee-su-visita/murallas-de-cartagena/"
         },
         {

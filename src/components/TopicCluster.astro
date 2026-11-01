@@ -1,0 +1,37 @@
+---
+import { TOPICS, GROUP_ORDER, GROUP_LABELS, type TopicGroup } from '../data/topics';
+
+interface Props {
+  lang: 'es' | 'en';
+}
+const { lang } = Astro.props;
+const t = (es: string, en: string) => (lang === 'es' ? es : en);
+const langPrefix = lang === 'es' ? '' : 'en/';
+const topicHref = (id: string) => `/${langPrefix}${id}/`;
+---
+
+<section class="topic-cluster section" id="guias" aria-labelledby="guias-title">
+  <div class="shell">
+    <div class="center-heading">
+      <p class="eyebrow">{t('Guías temáticas', 'Topic guides')}</p>
+      <h2 id="guias-title">{t('Guías de las Murallas de Cartagena', 'Walls of Cartagena guides')}</h2>
+      <p>{t('Respuestas a las preguntas más frecuentes sobre la visita, la historia y los alrededores de la muralla.', 'Answers to the most common questions about the visit, history and surroundings of the wall.')}</p>
+    </div>
+
+    {GROUP_ORDER.map((group: TopicGroup) => (
+      <div class="topic-group">
+        <h3 class="topic-group-title">{GROUP_LABELS[group][lang]}</h3>
+        <div class="topic-card-grid">
+          {TOPICS.filter((topic) => topic.group === group).map((topic) => (
+            <a class="topic-card" href={topicHref(topic.id)}>
+              <span class="topic-card-kicker">{topic[lang].kicker}</span>
+              <h4>{topic[lang].metaTitle}</h4>
+              <p>{topic[lang].lead}</p>
+              <span class="topic-card-cta" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

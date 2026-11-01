@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopicPage from '../components/TopicPage.astro';
+import { TOPICS } from '../data/topics';
+
+export function getStaticPaths() {
+  return TOPICS.map((topic) => ({
+    params: { slug: topic.id },
+    props: { topic },
+  }));
+}
+const { topic } = Astro.props;
+const pagePath = `/${topic.id}/`;
+const alternateHref = `/en/${topic.id}/`;
+---
+
+<BaseLayout
+  lang="es"
+  htmlLang="es"
+  siteName="Guía de las Murallas de Cartagena"
+  title={topic.es.metaTitle}
+  description={topic.es.metaDescription}
+  alternateHref={alternateHref}
+  pagePath={pagePath}
+>
+  <TopicPage topic={topic} lang="es" />
+</BaseLayout>

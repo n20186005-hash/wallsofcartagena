@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopicPage from '../../components/TopicPage.astro';
+import { TOPICS } from '../../data/topics';
+
+export function getStaticPaths() {
+  return TOPICS.map((topic) => ({
+    params: { slug: topic.id },
+    props: { topic },
+  }));
+}
+const { topic } = Astro.props;
+const pagePath = `/en/${topic.id}/`;
+const alternateHref = `/${topic.id}/`;
+---
+
+<BaseLayout
+  lang="en"
+  htmlLang="en"
+  siteName="Cartagena Walls Guide"
+  title={topic.en.metaTitle}
+  description={topic.en.metaDescription}
+  alternateHref={alternateHref}
+  pagePath={pagePath}
+>
+  <TopicPage topic={topic} lang="en" />
+</BaseLayout>
